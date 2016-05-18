@@ -2,5 +2,9 @@
     {
         "merged": "/Users/Francisca/Documents/workspace/PiggyCoins/android/build/intermediates/res/merged/debug/drawable-xhdpi-v4/ic_launcher.png",
         "source": "/Users/Francisca/Documents/workspace/PiggyCoins/android/res/drawable-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/Francisca/git/PiggyCoins/android/build/intermediates/res/merged/debug/drawable-xhdpi-v4/ic_launcher.png",
+        "source": "/Users/Francisca/git/PiggyCoins/android/res/drawable-xhdpi/ic_launcher.png"
     }
 ]
