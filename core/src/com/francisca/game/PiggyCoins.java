@@ -9,8 +9,8 @@ import com.francisca.game.states.GameStateManager;
 import com.francisca.game.states.MenuState;
 
 public class PiggyCoins extends ApplicationAdapter {
-	public static final int WIDTH = 600;
-	public static final int HEIGHT = 360;
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 480;
 
 	public static final String TITLE = "PiggyCoins";
 	private GameStateManager gsm;

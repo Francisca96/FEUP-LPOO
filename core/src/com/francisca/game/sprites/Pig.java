@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector3;
  * Created by Francisca on 18/05/16.
  */
 public class Pig {
-    public static final int WIDTH = 30;
-    public static final int HEIGHT = 30;
+    public static final int WIDTH = 35;
+    public static final int HEIGHT = 35;
     private static final int GRAVITY = -5;
     private Vector3 position;
     private Vector3 velocity;

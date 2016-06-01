@@ -36,7 +36,7 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(bg, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);
+        sb.draw(bg, 0, 0, PiggyCoins.WIDTH / 2, PiggyCoins.HEIGHT / 2);
         sb.draw(pig.getPig(), pig.getPosition().x, pig.getPosition().y, Pig.WIDTH, Pig.HEIGHT);
         sb.end();
     }

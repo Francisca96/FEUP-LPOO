@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/Francisca/git/PiggyCoins/android/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7f41c1a2a578b8c331d0a55f5e9171585193a199">
+        <dex dex="/Users/Francisca/git/PiggyCoins/android/build/intermediates/pre-dexed/debug/instant-run_ca45c1549214ff3836139745339d8a9bec5b8b12.jar" />
+    </item>
+    <item
+        jar="/Users/Francisca/git/PiggyCoins/android/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="28826181d276d0a54f3f217d11ab92c1ccc49670">
+        <dex dex="/Users/Francisca/git/PiggyCoins/android/build/intermediates/pre-dexed/debug/instant-run-bootstrap_f1f4018d7848eb95c2045c8e51a302ab9da34851.jar" />
+    </item>
+    <item
+        jar="/Users/Francisca/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d/1.9.2/b78eaa90aaaf7830e6dffff587ea6e859c2787b2/gdx-box2d-1.9.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b78eaa90aaaf7830e6dffff587ea6e859c2787b2">
+        <dex dex="/Users/Francisca/git/PiggyCoins/android/build/intermediates/pre-dexed/debug/gdx-box2d-1.9.2_83314458cb967ca778fd95f89f84330b6e6c4331.jar" />
+    </item>
+
+</items>
