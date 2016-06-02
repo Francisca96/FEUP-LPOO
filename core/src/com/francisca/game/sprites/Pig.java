@@ -25,6 +25,14 @@ public class Pig {
         pigAnimation = new Animation(new TextureRegion(pig), 8, 0.5f);
     }
 
+    public Pig()
+    {
+        position = new Vector3(0, 0, 0);
+        velocity = new Vector3(0, 0, 0);
+        pig = new Texture("pigSprite.png");
+        pigAnimation = new Animation(new TextureRegion(pig), 8, 0.5f);
+    }
+
     public void update(float dt){
         pigAnimation.update(dt);
         if(position.y > 0)
