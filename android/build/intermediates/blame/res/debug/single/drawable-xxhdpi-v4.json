@@ -1,6 +1,10 @@
 [
     {
-        "merged": "/Users/Francisca/git/PiggyCoins/android/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_launcher.png",
-        "source": "/Users/Francisca/git/PiggyCoins/android/res/drawable-xxhdpi/ic_launcher.png"
+        "merged": "C:\\Users\\Francisca\\git\\PiggyCoins\\android\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\Francisca\\git\\PiggyCoins\\android\\res\\drawable-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\ZeCarlos\\Documents\\Informatica\\2o Ano\\LPOO\\PiggyCoins\\android\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\ZeCarlos\\Documents\\Informatica\\2o Ano\\LPOO\\PiggyCoins\\android\\res\\drawable-xxhdpi\\ic_launcher.png"
     }
 ]
