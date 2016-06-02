@@ -1,0 +1,6 @@
+.gradle/
+.idea/compiler.xml
+.idea/
+android/build/
+android/libs/arm64-v8a/libgdx-box2d.so
+android/libs/
