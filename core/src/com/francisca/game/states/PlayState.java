@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.francisca.game.PiggyCoins;
 import com.francisca.game.sprites.Cloud;
 import com.francisca.game.sprites.Coin;
+import com.francisca.game.sprites.Obstacles;
 import com.francisca.game.sprites.Pig;
 
 /**
@@ -16,6 +17,7 @@ public class PlayState extends State {
     private Texture bg;
     private Coin coin;
     private Cloud cloud;
+    private Obstacles stick;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
@@ -24,6 +26,7 @@ public class PlayState extends State {
         bg = new Texture("bg.png");
         coin = new Coin(100);
         cloud = new Cloud(200);
+        stick = new Obstacles(200);
     }
 
     @Override
@@ -46,6 +49,8 @@ public class PlayState extends State {
         sb.draw(pig.getPig(), pig.getPosition().x, pig.getPosition().y, Pig.WIDTH, Pig.HEIGHT);
         sb.draw(coin.getCoin(), coin.getPos().x, coin.getPos().y, coin.getWIDTH(), coin.getHEIGHT());
         sb.draw(cloud.getCloud(), cloud.getPos().x, cloud.getPos().y, cloud.getWidth(), cloud.getHeight());
+        sb.draw(stick.getTopStick(), stick.getPosTopStick().x, stick.getPosTopStick().y);
+        sb.draw(stick.getBottomStick(), stick.getPosBottomStick().x, stick.getPosBottomStick().y);
         sb.end();
     }
 
