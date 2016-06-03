@@ -11,6 +11,8 @@ public class Pig {
     public static final int WIDTH = 35;
     public static final int HEIGHT = 35;
     private static final int GRAVITY = -15;
+
+
     private Vector3 position;
     private Vector3 velocity;
     private Animation pigAnimation;
@@ -47,6 +49,16 @@ public class Pig {
 
     public Vector3 getPosition() {
         return position;
+    }
+
+    public void setPosition(Vector3 position) {
+        this.position = position;
+    }
+
+    public void setPosition(int x, int y)
+    {
+        this.position.x = x;
+        this.position.y = y;
     }
 
     public TextureRegion getPig() {

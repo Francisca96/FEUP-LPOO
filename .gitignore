@@ -5,3 +5,4 @@ android/libs/
 local.properties
 core/build/
 android/android.iml
+desktop/build/

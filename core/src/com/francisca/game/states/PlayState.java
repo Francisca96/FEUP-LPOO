@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.francisca.game.PiggyCoins;
+import com.francisca.game.Player;
 import com.francisca.game.sprites.Cloud;
 import com.francisca.game.sprites.Coin;
 import com.francisca.game.sprites.Pig;
@@ -14,16 +15,20 @@ import com.francisca.game.sprites.Pig;
 public class PlayState extends State {
     private Pig pig;
     private Texture bg;
+    private Player player;
+
     private Coin coin;
     private Cloud cloud;
 
-    public PlayState(GameStateManager gsm) {
-        super(gsm);
-        pig = new Pig(50, 300);
+    public PlayState(GameStateManager gsm, Player player) {
+        super(gsm, player);
         cam.setToOrtho(false, PiggyCoins.WIDTH / 2, PiggyCoins.HEIGHT / 2);
         bg = new Texture("bg.png");
         coin = new Coin(100);
         cloud = new Cloud(200);
+
+        this.pig = player.getActualPig();
+        this.pig.setPosition(50, 300);
     }
 
     @Override

@@ -18,7 +18,8 @@ public class PiggyCoins extends ApplicationAdapter {
 
 	private GameStateManager gsm;
 	private SpriteBatch batch;
-	private Player player;
+	private Player actualPlayer; /*TODO criar um state em que se cria um player*/
+	private Array<Player> players;
 	private Array<Integer> highscore;
 
 
@@ -29,7 +30,13 @@ public class PiggyCoins extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
-		gsm.push(new MenuState(gsm));
+
+		/*TODO ler os players dum ficheiro de texto, e depois, caso esteja vazio, comecar o ecra do escolher jogador */
+		/*Este é apenas um metodo default*/
+		players = new Array<Player>();
+		actualPlayer = new Player("PlayerDefault");
+
+		gsm.push(new MenuState(gsm, actualPlayer));
 	}
 
 	@Override
