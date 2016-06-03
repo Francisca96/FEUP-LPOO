@@ -1,7 +1,7 @@
 .gradle/
-<<<<<<< HEAD
 .idea/
 android/build/
 android/libs/
 local.properties
 core/build/
+android/android.iml
