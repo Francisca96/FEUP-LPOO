@@ -16,12 +16,14 @@ public class Pig {
     private Vector3 position;
     private Vector3 velocity;
     private Animation pigAnimation;
+    private int numLifes;
 
     private Texture pig;
 
     public Pig(int x, int y){
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
+        numLifes = 3;
         //pig = new Texture("pig.png");
         pig = new Texture("pigSprite.png");
         pigAnimation = new Animation(new TextureRegion(pig), 8, 0.5f);
@@ -31,6 +33,7 @@ public class Pig {
     {
         position = new Vector3(0, 0, 0);
         velocity = new Vector3(0, 0, 0);
+        numLifes = 3;
         pig = new Texture("pigSprite.png");
         pigAnimation = new Animation(new TextureRegion(pig), 8, 0.5f);
     }

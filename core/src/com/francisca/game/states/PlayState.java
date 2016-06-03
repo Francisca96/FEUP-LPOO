@@ -3,6 +3,8 @@ package com.francisca.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.francisca.game.PiggyCoins;
 import com.francisca.game.Player;
 import com.francisca.game.sprites.Cloud;
@@ -16,6 +18,8 @@ public class PlayState extends State {
     private Pig pig;
     private Texture bg;
     private Player player;
+    private World world;
+    private Box2DDebugRenderer b2dr;
 
     private Coin coin;
     private Cloud cloud;
@@ -29,6 +33,9 @@ public class PlayState extends State {
 
         this.pig = player.getActualPig();
         this.pig.setPosition(50, 300);
+
+        world = new World(/*Vector 2D com a gravidade*/, true);
+        b2dr = new Box2DDebugRenderer();
     }
 
     @Override
