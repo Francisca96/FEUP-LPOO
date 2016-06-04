@@ -9,16 +9,17 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.francisca.game.PiggyCoins;
 
 /**
  * Created by ZeCarlos on 03/06/2016.
  */
 public abstract class Element extends Sprite{
 
-    protected Vector2 position;
+    protected Vector2 position; //Measures in pixels
     protected Vector3 velocity;
     public World world;
-    public Body b2body;
+    public Body b2body; //Measure in METRES
     protected Texture image;
 
     public Element()
@@ -54,7 +55,7 @@ public abstract class Element extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(5);
+        shape.setRadius(5/ PiggyCoins.PPM);
         fdef.shape = shape;
 
         b2body.createFixture(fdef);
@@ -64,7 +65,7 @@ public abstract class Element extends Sprite{
     {
         //defines body
         BodyDef bdef = new BodyDef();
-        bdef.position.set(x, y);
+        bdef.position.set(x/PiggyCoins.PPM, y/PiggyCoins.PPM);
         bdef.type = BodyDef.BodyType.StaticBody;
 
         //puts body into the world
@@ -72,7 +73,7 @@ public abstract class Element extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(5);
+        shape.setRadius(5/PiggyCoins.PPM);
         fdef.shape = shape;
 
         b2body.createFixture(fdef);
@@ -81,7 +82,7 @@ public abstract class Element extends Sprite{
 
     public void setBodyPosition(float x, float y)
     {
-        Vector2 v = new Vector2(x, y);
+        Vector2 v = new Vector2(x/PiggyCoins.PPM, y/PiggyCoins.PPM);
         b2body.setTransform(v, 0);
         return;
     }

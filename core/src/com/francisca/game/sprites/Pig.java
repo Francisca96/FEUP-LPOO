@@ -15,10 +15,13 @@ import com.francisca.game.states.PlayState;
  * Created by Francisca on 18/05/16.
  */
 public class Pig extends Element{
+    //Measures in pixels
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
     public static final float RADIUS = 20.5f;
     public static final float ADJUSTMENT = 4f; //To adjust the body to the sprite
+
+    public static final float IMPULSE = 0.4f;
 
 
     private Animation pigAnimation;
@@ -66,9 +69,10 @@ public class Pig extends Element{
 
     public void definePig()
     {
+        //Measures in METRES
         //defines body
         BodyDef bdef = new BodyDef();
-        bdef.position.set(position.x-PiggyCoins.WIDTH/2, position.y-PiggyCoins.HEIGHT/2);
+        bdef.position.set((position.x-PiggyCoins.WIDTH/2)/PiggyCoins.PPM, (position.y-PiggyCoins.HEIGHT/2)/PiggyCoins.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
 
         //puts body into the world
@@ -76,7 +80,7 @@ public class Pig extends Element{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(RADIUS);
+        shape.setRadius(RADIUS/PiggyCoins.PPM);
         fdef.shape = shape;
         fdef.density = 1;
 
@@ -101,7 +105,10 @@ public class Pig extends Element{
 
     public void update(float dt){
         pigAnimation.update(dt);
-        setPosition(b2body.getPosition().x+PiggyCoins.WIDTH/2-WIDTH/2, b2body.getPosition().y+PiggyCoins.HEIGHT/2-HEIGHT/2+ADJUSTMENT);
+        //Measures in pixels
+        float x = (b2body.getPosition().x)*PiggyCoins.PPM +PiggyCoins.WIDTH/2-WIDTH/2;
+        float y = (b2body.getPosition().y)*PiggyCoins.PPM +PiggyCoins.HEIGHT/2-HEIGHT/2+ADJUSTMENT;
+        setPosition(x,y);
         /*
         if(position.y > 0)
             velocity.add(0, GRAVITY, 0);
@@ -118,7 +125,7 @@ public class Pig extends Element{
     }
 
     public void jump(){
-        Vector2 impulse = new Vector2(0, 10000000*20f);
+        Vector2 impulse = new Vector2(0, IMPULSE);
         this.b2body.applyLinearImpulse(impulse, b2body.getWorldCenter(), true);
     }
 

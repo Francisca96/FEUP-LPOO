@@ -21,10 +21,10 @@ import com.francisca.game.sprites.Pig;
  * Created by Francisca on 15/05/16.
  */
 public class PlayState extends State {
-    public static final float GRAVITY = -98f;
+    public static final float GRAVITY = -0.1f;
 
     private Pig pig;
-    private Floor floor;
+    private Floor floor, ceiling;
     private Texture bg;
     private Player player;
     private World world;
@@ -46,6 +46,7 @@ public class PlayState extends State {
 
         this.pig = new Pig(world, 50, 400,player.getActualPig());
         this.floor = new Floor(world);
+        this.ceiling = new Floor(world, 0, PiggyCoins.HEIGHT);
        // this.pig.setPosition(50/PiggyCoins.PPM, 10/PiggyCoins.PPM);
         //this.pig.setPosition(0/PiggyCoins.PPM, 0/PiggyCoins.PPM);
 

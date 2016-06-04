@@ -13,6 +13,7 @@ import com.francisca.game.PiggyCoins;
  */
 public class Floor extends Element {
 
+    //Measures in pixels
     public static final int WIDTH = 200;
     public static final int HEIGHT = 3;
 
@@ -23,11 +24,20 @@ public class Floor extends Element {
         defineFloor();
     }
 
+    public Floor(World world, float x, float y)
+    {
+        //Measures in pixels
+        this.world = world;
+        position = new Vector2(x,y);
+        defineFloor();
+    }
+
     public void defineFloor()
     {
+        //Measures in METRES
         //defines body
         BodyDef bdef = new BodyDef();
-        bdef.position.set(position.x-PiggyCoins.WIDTH/2, position.y-PiggyCoins.HEIGHT/2); //Alinha o corpo com a sprite
+        bdef.position.set((position.x-PiggyCoins.WIDTH/2)/PiggyCoins.PPM, (position.y-PiggyCoins.HEIGHT/2)/PiggyCoins.PPM); //Alinha o corpo com a sprite
         bdef.type = BodyDef.BodyType.StaticBody;
 
         //puts body into the world
@@ -35,7 +45,7 @@ public class Floor extends Element {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(this.WIDTH/2, this.HEIGHT/2);
+        shape.setAsBox((this.WIDTH/2)/PiggyCoins.PPM, (this.HEIGHT/2)/PiggyCoins.PPM);
         fdef.shape = shape;
 
         b2body.createFixture(fdef);

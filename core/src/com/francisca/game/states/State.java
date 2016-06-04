@@ -26,7 +26,7 @@ public abstract class State {
 
     protected State (GameStateManager gsm, Player player){
         this.gsm = gsm;
-        cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam = new OrthographicCamera(Gdx.graphics.getWidth()/PiggyCoins.PPM, Gdx.graphics.getHeight()/PiggyCoins.PPM);
         cam.update();
         System.out.println("Camera");
         System.out.println(cam.position.x);
