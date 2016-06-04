@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.SortedIntList;
 import com.francisca.game.sprites.Pig;
+import com.francisca.game.sprites.PigType;
 
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Player {
     private String name;
-    private Pig actualPig;
+    private PigType actualPig;
 
     public String getName() {
         return name;
@@ -23,18 +24,18 @@ public class Player {
         this.name = name;
     }
 
-    public Pig getActualPig() {
+    public PigType getActualPig() {
         return actualPig;
     }
 
-    public void setActualPig(Pig actualPig) {
+    public void setActualPig(PigType actualPig) {
         this.actualPig = actualPig;
     }
 
     public Player(String name)
     {
         this.name = name;
-        this.actualPig = new Pig();
+        this.actualPig = PigType.NORMAL;
     }
 
 }

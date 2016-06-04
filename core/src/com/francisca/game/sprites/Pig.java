@@ -2,44 +2,105 @@ package com.francisca.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
+import com.francisca.game.PiggyCoins;
+import com.francisca.game.states.PlayState;
 
 /**
  * Created by Francisca on 18/05/16.
  */
-public class Pig {
-    public static final int WIDTH = 35;
-    public static final int HEIGHT = 35;
-    private static final int GRAVITY = -15;
+public class Pig extends Element{
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
 
 
-    private Vector3 position;
-    private Vector3 velocity;
     private Animation pigAnimation;
-    private int numLifes;
+    private int numLives;
 
-    private Texture pig;
+    public Pig(World world, int x, int y, PigType pigType){
 
-    public Pig(int x, int y){
-        position = new Vector3(x, y, 0);
-        velocity = new Vector3(0, 0, 0);
-        numLifes = 3;
-        //pig = new Texture("pig.png");
-        pig = new Texture("pigSprite.png");
-        pigAnimation = new Animation(new TextureRegion(pig), 8, 0.5f);
+        this.world = world;
+        position = new Vector2(x,y);
+        definePig();
+        numLives = 3;
+        this.image = chooseTexture(pigType);
+        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
     }
 
-    public Pig()
+
+    public Pig(World world, int x, int y){
+        this.world = world;
+        position = new Vector2(x,y);
+        definePig();
+        numLives = 3;
+        this.image = chooseTexture(PigType.NORMAL);
+        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
+    }
+
+    public Pig(World world, PigType pigType)
     {
-        position = new Vector3(0, 0, 0);
-        velocity = new Vector3(0, 0, 0);
-        numLifes = 3;
-        pig = new Texture("pigSprite.png");
-        pigAnimation = new Animation(new TextureRegion(pig), 8, 0.5f);
+        this.world = world;
+        position = new Vector2(0,0);
+        definePig();
+        numLives = 3;
+        this.image = chooseTexture(pigType);
+        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
+    }
+
+    public Pig(World world)
+    {
+        this.world = world;
+        position = new Vector2(0,0);
+        definePig();
+        numLives = 3;
+        this.image = chooseTexture(PigType.NORMAL);
+        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
+    }
+
+    public void definePig()
+    {
+        //defines body
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(position.x-PiggyCoins.WIDTH/2, position.y-PiggyCoins.HEIGHT/2);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+
+        //puts body into the world
+        b2body = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(25f);
+        fdef.shape = shape;
+        fdef.density = 1;
+
+        b2body.createFixture(fdef);
+        shape.dispose();
+    }
+
+    public Texture chooseTexture(PigType pigType)
+    {
+        Texture texture;
+        if(pigType == PigType.NORMAL)
+        {
+            texture = new Texture("pigSprite.png");
+        }
+        else
+        {
+            texture = new Texture("pigSprite.png");
+        }
+
+        return texture;
     }
 
     public void update(float dt){
         pigAnimation.update(dt);
+        setPosition(b2body.getPosition().x+PiggyCoins.WIDTH/2, b2body.getPosition().y+PiggyCoins.HEIGHT/2);
+        /*
         if(position.y > 0)
             velocity.add(0, GRAVITY, 0);
         velocity.scl(dt);
@@ -47,21 +108,7 @@ public class Pig {
         if(position.y < 0)
             position.y = 0;
 
-        velocity.scl(1/dt);
-    }
-
-    public Vector3 getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector3 position) {
-        this.position = position;
-    }
-
-    public void setPosition(int x, int y)
-    {
-        this.position.x = x;
-        this.position.y = y;
+        velocity.scl(1/dt);*/
     }
 
     public TextureRegion getPig() {
@@ -69,8 +116,10 @@ public class Pig {
     }
 
     public void jump(){
-        velocity.y = 250;
+        Vector2 impulse = new Vector2(0, PlayState.GRAVITY*-20f);
+        this.b2body.applyLinearImpulse(impulse, b2body.getWorldCenter(), true);
+        //velocity.y = 250;
     }
 
-    public void dispose(){ pig.dispose(); }
+    public void dispose(){ this.image.dispose(); }
 }
