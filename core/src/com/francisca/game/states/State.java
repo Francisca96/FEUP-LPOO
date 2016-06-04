@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.francisca.game.PiggyCoins;
@@ -27,13 +28,11 @@ public abstract class State {
     protected State (GameStateManager gsm, Player player){
         this.gsm = gsm;
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/PiggyCoins.PPM, Gdx.graphics.getHeight()/PiggyCoins.PPM);
-        cam.update();
-        System.out.println("Camera");
-        System.out.println(cam.position.x);
-        System.out.println(cam.position.y);
+        //cam = new OrthographicCamera();
+        //cam.update();
+        gamePort = new StretchViewport(Gdx.graphics.getWidth()/PiggyCoins.PPM, Gdx.graphics.getHeight()/PiggyCoins.PPM, cam);
         //cam.position.set(cam.viewportWidth, cam.viewportHeight);
-        //gamePort = new StretchViewport(PiggyCoins.WIDTH/PiggyCoins.PPM, PiggyCoins.HEIGHT/PiggyCoins.PPM, cam);
-        gamePort = new StretchViewport(PiggyCoins.WIDTH/PiggyCoins.PPM, PiggyCoins.HEIGHT/PiggyCoins.PPM, cam);
+        //gamePort = new ScreenViewport(cam);
         mouse = new Vector3();
         this.player = player;
     }

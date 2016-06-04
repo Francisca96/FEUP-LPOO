@@ -16,12 +16,26 @@ import com.francisca.game.sprites.Cloud;
 import com.francisca.game.sprites.Coin;
 import com.francisca.game.sprites.Floor;
 import com.francisca.game.sprites.Pig;
+import com.francisca.game.tools.WorldContactListener;
 
 /**
  * Created by Francisca on 15/05/16.
  */
 public class PlayState extends State {
     public static final float GRAVITY = -0.1f;
+
+    //Categories for collisions
+    public static final short CATEGORY_PIG = 0x0001;
+    public static final short CATEGORY_LIMIT = 0x0002;
+    public static final short CATEGORY_OBSTACLE = 0x0004;
+    public static final short CATEGORY_COLLECTIBLE = 0x0008;
+
+    //Masks for collisions
+    public static final short MASK_PIG = CATEGORY_LIMIT | CATEGORY_OBSTACLE;
+    public static final short MASK_LIMIT = CATEGORY_PIG;
+    public static final short MASK_OBSTACLE = CATEGORY_PIG | CATEGORY_COLLECTIBLE;
+    public static final short MASK_COLLECTIBLE = CATEGORY_OBSTACLE;
+
 
     private Pig pig;
     private Floor floor, ceiling;
@@ -46,11 +60,11 @@ public class PlayState extends State {
 
         this.pig = new Pig(world, 50, 400,player.getActualPig());
         this.floor = new Floor(world);
-        this.ceiling = new Floor(world, 0, PiggyCoins.HEIGHT);
+        this.ceiling = new Floor(world, 0, Gdx.graphics.getHeight());
        // this.pig.setPosition(50/PiggyCoins.PPM, 10/PiggyCoins.PPM);
         //this.pig.setPosition(0/PiggyCoins.PPM, 0/PiggyCoins.PPM);
 
-        //world.setContactListener(new WorldContactListener());
+        world.setContactListener(new WorldContactListener());
     }
 
     @Override
@@ -71,6 +85,8 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         Gdx.gl.glClearColor(0, 0, 0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //sb.setProjectionMatrix(cam.combined);
 
         sb.begin();
         sb.draw(bg, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);

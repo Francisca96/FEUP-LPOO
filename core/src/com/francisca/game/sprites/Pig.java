@@ -1,5 +1,6 @@
 package com.francisca.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -72,17 +73,21 @@ public class Pig extends Element{
         //Measures in METRES
         //defines body
         BodyDef bdef = new BodyDef();
-        bdef.position.set((position.x-PiggyCoins.WIDTH/2)/PiggyCoins.PPM, (position.y-PiggyCoins.HEIGHT/2)/PiggyCoins.PPM);
+        //bdef.position.set((position.x-PiggyCoins.WIDTH/2)/PiggyCoins.PPM, (position.y-PiggyCoins.HEIGHT/2)/PiggyCoins.PPM);
+        bdef.position.set((position.x- Gdx.graphics.getWidth()/2)/PiggyCoins.PPM, (position.y-Gdx.graphics.getHeight()/2)/PiggyCoins.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
 
         //puts body into the world
         b2body = world.createBody(bdef);
 
+        //Define characteristics of body
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(RADIUS/PiggyCoins.PPM);
         fdef.shape = shape;
         fdef.density = 1;
+        fdef.filter.categoryBits = PlayState.CATEGORY_PIG;
+        fdef.filter.maskBits = PlayState.MASK_PIG;
 
         b2body.createFixture(fdef);
         shape.dispose();
@@ -106,8 +111,12 @@ public class Pig extends Element{
     public void update(float dt){
         pigAnimation.update(dt);
         //Measures in pixels
+        /*
         float x = (b2body.getPosition().x)*PiggyCoins.PPM +PiggyCoins.WIDTH/2-WIDTH/2;
         float y = (b2body.getPosition().y)*PiggyCoins.PPM +PiggyCoins.HEIGHT/2-HEIGHT/2+ADJUSTMENT;
+        */
+        float x = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
+        float y = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
         setPosition(x,y);
         /*
         if(position.y > 0)
