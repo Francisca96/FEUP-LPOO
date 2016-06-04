@@ -14,12 +14,12 @@ import com.francisca.game.PiggyCoins;
 public class Floor extends Element {
 
     public static final int WIDTH = 200;
-    public static final int HEIGHT = 30;
+    public static final int HEIGHT = 3;
 
     public Floor(World world)
     {
         this.world = world;
-        position = new Vector2(0,0);
+        position = new Vector2(0,-3);
         defineFloor();
     }
 

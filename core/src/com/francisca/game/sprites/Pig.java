@@ -17,6 +17,8 @@ import com.francisca.game.states.PlayState;
 public class Pig extends Element{
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
+    public static final float RADIUS = 20.5f;
+    public static final float ADJUSTMENT = 4f; //To adjust the body to the sprite
 
 
     private Animation pigAnimation;
@@ -74,7 +76,7 @@ public class Pig extends Element{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(25f);
+        shape.setRadius(RADIUS);
         fdef.shape = shape;
         fdef.density = 1;
 
@@ -99,7 +101,7 @@ public class Pig extends Element{
 
     public void update(float dt){
         pigAnimation.update(dt);
-        setPosition(b2body.getPosition().x+PiggyCoins.WIDTH/2, b2body.getPosition().y+PiggyCoins.HEIGHT/2);
+        setPosition(b2body.getPosition().x+PiggyCoins.WIDTH/2-WIDTH/2, b2body.getPosition().y+PiggyCoins.HEIGHT/2-HEIGHT/2+ADJUSTMENT);
         /*
         if(position.y > 0)
             velocity.add(0, GRAVITY, 0);
@@ -116,9 +118,8 @@ public class Pig extends Element{
     }
 
     public void jump(){
-        Vector2 impulse = new Vector2(0, PlayState.GRAVITY*-20f);
+        Vector2 impulse = new Vector2(0, 10000000*20f);
         this.b2body.applyLinearImpulse(impulse, b2body.getWorldCenter(), true);
-        //velocity.y = 250;
     }
 
     public void dispose(){ this.image.dispose(); }

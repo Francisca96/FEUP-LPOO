@@ -79,17 +79,16 @@ public abstract class Element extends Sprite{
     }
 
 
-    public void setBodyPosition(int x, int y)
+    public void setBodyPosition(float x, float y)
     {
         Vector2 v = new Vector2(x, y);
         b2body.setTransform(v, 0);
         return;
     }
 
-    public void setPosition(int x, int y)
+    public void setPosition(float x, float y)
     {
-        Vector2 v = new Vector2(x, y);
-        position = v;
+        position.set(x, y);
         return;
     }
 
