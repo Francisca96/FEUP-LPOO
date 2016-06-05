@@ -3,6 +3,7 @@ package com.francisca.game.states;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.francisca.game.PiggyCoins;
+import com.francisca.game.Player;
 
 /**
  * Created by Francisca on 05/06/16.
@@ -10,8 +11,8 @@ import com.francisca.game.PiggyCoins;
 public class HighscoresState extends State{
     private Texture background;
 
-    public HighscoresState (GameStateManager gsm) {
-        super(gsm);
+    public HighscoresState (GameStateManager gsm, Player player) {
+        super(gsm, player);
         background = new Texture("bgStates.png");
     }
 

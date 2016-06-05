@@ -15,16 +15,8 @@ public class MenuState extends State {
     private Texture settingsBtn;
     private Texture highscoresBtn;
     private Texture soundBtn;
-<<<<<<< HEAD
-
-
-
-    public MenuState(GameStateManager gsm) {
-        super(gsm);
-=======
     public MenuState(GameStateManager gsm, Player player) {
         super(gsm, player);
->>>>>>> logicGato3
         background = new Texture("background.png");
         playBtn = new Texture("playBtn.png");
         settingsBtn = new Texture("settingsBtn.png");
@@ -35,12 +27,8 @@ public class MenuState extends State {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()){
-<<<<<<< HEAD
-            gsm.set(new PlayState(gsm));
-=======
             gsm.set(new PlayState(gsm, player));
             dispose();
->>>>>>> logicGato3
         }
     }
 

@@ -16,12 +16,8 @@ import com.francisca.game.Player;
 import com.francisca.game.generators.ObstacleGenerator;
 import com.francisca.game.sprites.Cloud;
 import com.francisca.game.sprites.Coin;
-<<<<<<< HEAD
-import com.francisca.game.sprites.Stick;
-=======
 import com.francisca.game.sprites.Floor;
 import com.francisca.game.sprites.Obstacle;
->>>>>>> logicGato3
 import com.francisca.game.sprites.Pig;
 import com.francisca.game.tools.WorldContactListener;
 
@@ -62,7 +58,6 @@ public class PlayState extends State {
 
     private Coin coin;
     private Cloud cloud;
-    private Stick stick;
 
     //Generators
     private ObstacleGenerator obstacleGenerator;
@@ -72,9 +67,6 @@ public class PlayState extends State {
         bg = new Texture("bg.png");
         coin = new Coin(100);
         cloud = new Cloud(200);
-<<<<<<< HEAD
-        stick = new Stick(150);
-=======
 
         //Set world
         Vector2 gravity = new Vector2(0, GRAVITY);
@@ -94,7 +86,6 @@ public class PlayState extends State {
         this.obstacleGenerator = new ObstacleGenerator(this.world);
 
         world.setContactListener(new WorldContactListener());
->>>>>>> logicGato3
     }
 
     @Override
@@ -146,18 +137,12 @@ public class PlayState extends State {
         //sb.setProjectionMatrix(cam.combined);
 
         sb.begin();
-<<<<<<< HEAD
-        sb.draw(bg, 0, 0, PiggyCoins.WIDTH / 2, PiggyCoins.HEIGHT / 2);
-        sb.draw(pig.getPig(), pig.getPosition().x, pig.getPosition().y, Pig.WIDTH, Pig.HEIGHT);
-        //sb.draw(coin.getCoin(), coin.getPos().x, coin.getPos().y, coin.getWIDTH(), coin.getHEIGHT());
-=======
        // sb.draw(bg, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);
         sb.draw(pig.getImage(), pig.getPosition().x, pig.getPosition().y, Pig.WIDTH, Pig.HEIGHT);
         for(Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getImage(), obstacle.getPosition().x, obstacle.getPosition().y, Obstacle.WIDTH, obstacle.getSize());
         }
         sb.draw(coin.getCoin(), coin.getPos().x, coin.getPos().y, coin.WIDTH, coin.HEIGHT);
->>>>>>> logicGato3
         sb.draw(cloud.getCloud(), cloud.getPos().x, cloud.getPos().y, cloud.getWidth(), cloud.getHeight());
         //sb.draw(stick.getTopStick(), stick.getPosTopStick().x, stick.getPosTopStick().y, stick.getWidth(), stick.getHeightTopStick());
         //sb.draw(stick.getBottomStick(), stick.getPosBottomStick().x, stick.getPosBottomStick().y, stick.getWidth(), stick.getHeightBottomStick());
@@ -169,16 +154,10 @@ public class PlayState extends State {
 
     @Override
     public void dispose() {
-<<<<<<< HEAD
-        bg.dispose();
-        pig.dispose();
-        cloud.dispose();
-        System.out.println("Play State Disposed");
-=======
         world.dispose();
         b2dr.dispose();
         pig.dispose();
         bg.dispose();
->>>>>>> logicGato3
+        cloud.dispose();
     }
 }
