@@ -2,6 +2,7 @@ package com.francisca.game.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -34,8 +35,9 @@ public class Pig extends Element{
         position = new Vector2(x,y);
         definePig();
         numLives = 3;
-        this.image = chooseTexture(pigType);
-        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
+        this.image = new TextureRegion();
+        this.image.setTexture(chooseTexture(pigType));
+        pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
     }
 
 
@@ -44,8 +46,9 @@ public class Pig extends Element{
         position = new Vector2(x,y);
         definePig();
         numLives = 3;
-        this.image = chooseTexture(PigType.NORMAL);
-        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
+        this.image = new TextureRegion();
+        this.image.setTexture(chooseTexture(PigType.NORMAL));
+        pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
     }
 
     public Pig(World world, PigType pigType)
@@ -54,8 +57,9 @@ public class Pig extends Element{
         position = new Vector2(0,0);
         definePig();
         numLives = 3;
-        this.image = chooseTexture(pigType);
-        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
+        this.image = new TextureRegion();
+        this.image.setTexture(chooseTexture(pigType));
+        pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
     }
 
     public Pig(World world)
@@ -64,8 +68,9 @@ public class Pig extends Element{
         position = new Vector2(0,0);
         definePig();
         numLives = 3;
-        this.image = chooseTexture(PigType.NORMAL);
-        pigAnimation = new Animation(new TextureRegion(this.image), 8, 0.5f);
+        this.image = new TextureRegion();
+        this.image.setTexture(chooseTexture(PigType.NORMAL));
+        pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
     }
 
     public void definePig()
@@ -118,18 +123,14 @@ public class Pig extends Element{
         float x = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
         float y = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
         setPosition(x,y);
-        /*
-        if(position.y > 0)
-            velocity.add(0, GRAVITY, 0);
-        velocity.scl(dt);
-        position.add(0, velocity.y, 0);
-        if(position.y < 0)
-            position.y = 0;
 
-        velocity.scl(1/dt);*/
+        //Stops Velocity in the x axis
+        b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
+        b2body.setAngularVelocity(0);
     }
 
-    public TextureRegion getPig() {
+    @Override
+    public TextureRegion getImage() {
         return pigAnimation.getFrame();
     }
 
@@ -138,5 +139,9 @@ public class Pig extends Element{
         this.b2body.applyLinearImpulse(impulse, b2body.getWorldCenter(), true);
     }
 
-    public void dispose(){ this.image.dispose(); }
+    public void move()
+    {
+        this.b2body.applyLinearImpulse(new Vector2(0.1f, 0), b2body.getWorldCenter(), true);
+    }
+    public void dispose(){ }
 }

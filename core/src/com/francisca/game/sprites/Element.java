@@ -2,6 +2,7 @@ package com.francisca.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -20,7 +21,8 @@ public abstract class Element extends Sprite{
     protected Vector3 velocity;
     public World world;
     public Body b2body; //Measure in METRES
-    protected Texture image;
+    protected TextureRegion image;
+    protected Animation animation;
 
     public Element()
     {
@@ -33,6 +35,7 @@ public abstract class Element extends Sprite{
         defineElement();
         position = new Vector2(0, 0);
         velocity = new Vector3(0, 0, 0);
+        image = new TextureRegion();
     }
 
     public Element(World world, int x, int y)
@@ -41,6 +44,7 @@ public abstract class Element extends Sprite{
         position = new Vector2(x, y);
         defineElement(x, y);
         velocity = new Vector3(0,0,0);
+        image = new TextureRegion();
     }
 
     public void defineElement()
@@ -96,5 +100,20 @@ public abstract class Element extends Sprite{
     public Vector2 getPosition() { return position;}
     public Vector2 getBodyPosition() {
         return b2body.getPosition();
+    }
+
+    public void setImage(Texture texture)
+    {
+        image.setTexture(texture);
+    }
+
+    public void setImage(String filename)
+    {
+        image.setTexture(new Texture(filename));
+    }
+
+    public TextureRegion getImage()
+    {
+        return animation.getFrame();
     }
 }

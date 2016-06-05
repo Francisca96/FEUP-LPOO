@@ -16,13 +16,13 @@ import com.francisca.game.states.PlayState;
 public class Floor extends Element {
 
     //Measures in pixels
-    public static final int WIDTH = 200;
+    public static final int WIDTH = 400;
     public static final int HEIGHT = 3;
 
     public Floor(World world)
     {
         this.world = world;
-        position = new Vector2(0,-3);
+        position = new Vector2(WIDTH/2,-HEIGHT);
         defineFloor();
     }
 
