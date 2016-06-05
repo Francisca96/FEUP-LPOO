@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.Array;
 import com.francisca.game.states.GameStateManager;
 import com.francisca.game.states.MenuState;
@@ -13,19 +14,29 @@ public class PiggyCoins extends ApplicationAdapter {
 	public static final int HEIGHT = 480;
 	public static final String TITLE = "PiggyCoins";
 	public static final int HIGHSCORE_SIZE = 10;
+	public static final float PPM = 100f;
 
 
 	private GameStateManager gsm;
 	private SpriteBatch batch;
-	private Player player;
+	private Player actualPlayer; /*TODO criar um state em que se cria um player*/
+	private Array<Player> players;
 	private Array<Integer> highscore;
 	
 	@Override
 	public void create () {
+		Box2D.init();
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		gsm.push(new MenuState(gsm));
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+
+		/*TODO ler os players dum ficheiro de texto, e depois, caso esteja vazio, comecar o ecra do escolher jogador */
+		/*Este é apenas um metodo default*/
+
+		players = new Array<Player>();
+		actualPlayer = new Player("PlayerDefault");
+
+		gsm.push(new MenuState(gsm, actualPlayer));
 	}
 
 	@Override

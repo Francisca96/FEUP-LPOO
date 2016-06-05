@@ -31,12 +31,4 @@ public class Coin {
     public Vector2 getPos() {
         return pos;
     }
-
-    public static int getWIDTH() {
-        return WIDTH;
-    }
-
-    public static int getHEIGHT() {
-        return HEIGHT;
-    }
 }
