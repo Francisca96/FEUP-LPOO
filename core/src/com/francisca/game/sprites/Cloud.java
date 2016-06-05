@@ -59,4 +59,8 @@ public class Cloud {
     public int getWidth() {
         return width;
     }
+
+    public void dispose(){
+        currTexture.dispose();
+    }
 }

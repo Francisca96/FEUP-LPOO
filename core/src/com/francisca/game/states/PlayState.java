@@ -36,7 +36,7 @@ public class PlayState extends State {
     }
 
     @Override
-    public void update(float dt) {
+        public void update(float dt) {
         handleInput();
         pig.update(dt);
     }
@@ -56,6 +56,9 @@ public class PlayState extends State {
 
     @Override
     public void dispose() {
-
+        bg.dispose();
+        pig.dispose();
+        cloud.dispose();
+        System.out.println("Play State Disposed");
     }
 }
