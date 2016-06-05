@@ -58,7 +58,7 @@ public class PlayState extends State {
         world = new World(gravity, true);
         b2dr = new Box2DDebugRenderer();
 
-        this.pig = new Pig(world, 50, 400,player.getActualPig());
+        this.pig = new Pig(world, Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/2,player.getActualPig());
         this.floor = new Floor(world);
         this.ceiling = new Floor(world, 0, Gdx.graphics.getHeight());
        // this.pig.setPosition(50/PiggyCoins.PPM, 10/PiggyCoins.PPM);
