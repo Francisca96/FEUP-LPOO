@@ -1,13 +1,6 @@
 package com.francisca.game;
 
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
-import com.badlogic.gdx.utils.SortedIntList;
-import com.francisca.game.sprites.Pig;
 import com.francisca.game.sprites.PigType;
-
-
-import java.util.ArrayList;
 
 /**
  * Created by ZeCarlos on 08/05/2016.

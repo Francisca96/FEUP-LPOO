@@ -1,22 +1,21 @@
-package com.francisca.game.sprites;
+package com.francisca.game.sprites.elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.francisca.game.PiggyCoins;
+import com.francisca.game.sprites.Animation;
 import com.francisca.game.states.PlayState;
 
 /**
  * Created by Francisca on 01/06/16.
  */
-public class Obstacle extends Element{
+public class Obstacle extends com.francisca.game.sprites.elements.Element {
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = 200;
@@ -79,11 +78,13 @@ public class Obstacle extends Element{
         fdef.filter.maskBits = PlayState.MASK_OBSTACLE;
 
         //Adds the characteristics to the body
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData("obstacle");
         b2body.setAwake(true);
 
         //Nullifies the force of gravity
         b2body.setGravityScale(0);
+
+        //Applies the velocity set for the objects
         applyVelocity();
 
         shape.dispose();
@@ -104,21 +105,8 @@ public class Obstacle extends Element{
         return true;
     }
 
-    public void applyVelocity()
-    {
-        this.b2body.setLinearVelocity(PlayState.OBSTACLE_VELOCITY, 0);
-    }
-
     public float getSize()
     {
         return size;
-    }
-
-    public void delete()
-    {
-        for(Fixture fixture : b2body.getFixtureList()) {
-            b2body.destroyFixture(fixture);
-        }
-        world.destroyBody(b2body);
     }
 }

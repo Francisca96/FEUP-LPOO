@@ -1,22 +1,22 @@
-package com.francisca.game.sprites;
+package com.francisca.game.sprites.elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.francisca.game.PiggyCoins;
+import com.francisca.game.sprites.Animation;
+import com.francisca.game.sprites.PigType;
 import com.francisca.game.states.PlayState;
 
 /**
  * Created by Francisca on 18/05/16.
  */
-public class Pig extends Element{
+public class Pig extends com.francisca.game.sprites.elements.Element {
     //Measures in pixels
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
@@ -38,6 +38,11 @@ public class Pig extends Element{
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(pigType));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+
+        //align the sprite
+        float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
+        float yalign = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
+        setPosition(xalign,yalign);
     }
 
 
@@ -49,6 +54,11 @@ public class Pig extends Element{
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(PigType.NORMAL));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+
+        //align the sprite
+        float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
+        float yalign = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
+        setPosition(xalign,yalign);
     }
 
     public Pig(World world, PigType pigType)
@@ -60,6 +70,11 @@ public class Pig extends Element{
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(pigType));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+
+        //align the sprite
+        float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
+        float yalign = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
+        setPosition(xalign,yalign);
     }
 
     public Pig(World world)
@@ -71,6 +86,11 @@ public class Pig extends Element{
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(PigType.NORMAL));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+
+        //align the sprite
+        float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
+        float yalign = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
+        setPosition(xalign,yalign);
     }
 
     public void definePig()
@@ -94,7 +114,7 @@ public class Pig extends Element{
         fdef.filter.categoryBits = PlayState.CATEGORY_PIG;
         fdef.filter.maskBits = PlayState.MASK_PIG;
 
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData("pig");
         shape.dispose();
     }
 
@@ -113,13 +133,10 @@ public class Pig extends Element{
         return texture;
     }
 
-    public void update(float dt){
+    public boolean update(float dt){
         pigAnimation.update(dt);
         //Measures in pixels
-        /*
-        float x = (b2body.getPosition().x)*PiggyCoins.PPM +PiggyCoins.WIDTH/2-WIDTH/2;
-        float y = (b2body.getPosition().y)*PiggyCoins.PPM +PiggyCoins.HEIGHT/2-HEIGHT/2+ADJUSTMENT;
-        */
+
         float x = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
         float y = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
         setPosition(x,y);
@@ -127,6 +144,8 @@ public class Pig extends Element{
         //Stops Velocity in the x axis
         b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
         b2body.setAngularVelocity(0);
+
+        return true;
     }
 
     @Override

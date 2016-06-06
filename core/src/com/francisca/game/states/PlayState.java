@@ -6,19 +6,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.FloatArray;
-import com.francisca.game.PiggyCoins;
 import com.francisca.game.Player;
 import com.francisca.game.generators.ObstacleGenerator;
 import com.francisca.game.sprites.Cloud;
-import com.francisca.game.sprites.Coin;
-import com.francisca.game.sprites.Floor;
-import com.francisca.game.sprites.Obstacle;
-import com.francisca.game.sprites.Pig;
+import com.francisca.game.sprites.elements.Coin;
+import com.francisca.game.sprites.elements.Floor;
+import com.francisca.game.sprites.elements.Obstacle;
+import com.francisca.game.sprites.elements.Pig;
 import com.francisca.game.tools.WorldContactListener;
 
 import java.util.ArrayList;
@@ -29,8 +25,8 @@ import java.util.Iterator;
  */
 public class PlayState extends State {
     //Forces and Impulses
-    public static final float GRAVITY = -9.8f;
-    public static final float OBSTACLE_VELOCITY = -1f;
+    public static final float GRAVITY = 0;//-9.8f;
+    public static final float WORLD_VELOCITY = 0;//-1f;
 
     //Categories for collisions
     public static final short CATEGORY_PIG = 0x0001;
@@ -39,10 +35,11 @@ public class PlayState extends State {
     public static final short CATEGORY_COLLECTIBLE = 0x0008;
 
     //Masks for collisions
-    public static final short MASK_PIG = CATEGORY_LIMIT | CATEGORY_OBSTACLE;
+    public static final short MASK_PIG = CATEGORY_LIMIT | CATEGORY_OBSTACLE | CATEGORY_COLLECTIBLE;
     public static final short MASK_LIMIT = CATEGORY_PIG;
     public static final short MASK_OBSTACLE = CATEGORY_PIG | CATEGORY_COLLECTIBLE;
-    public static final short MASK_COLLECTIBLE = CATEGORY_OBSTACLE;
+    public static final short MASK_COLLECTIBLE = CATEGORY_PIG | CATEGORY_OBSTACLE;
+    //ATENCAO, QUE A PROPRIA CLASSE NAO COLIDE ENTRE AS SUAS INSTANCIAS
 
 
     private Texture bg;
@@ -55,8 +52,8 @@ public class PlayState extends State {
     private Floor floor, ceiling;
     //private Obstacle obstacle;
     private ArrayList<Obstacle> obstacles;
-
     private Coin coin;
+
     private Cloud cloud;
 
     //Generators
@@ -65,7 +62,6 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm, Player player) {
         super(gsm, player);
         bg = new Texture("bg.png");
-        coin = new Coin(100);
         cloud = new Cloud(200);
 
         //Set world
@@ -81,6 +77,7 @@ public class PlayState extends State {
         //this.obstacle = new Obstacle(world);
         this.obstacles = new ArrayList<Obstacle>();
         this.obstacles.add(obstacle);
+        this.coin = new Coin(world, Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/2);//(world, 50, 50);
 
         //Initializing generators
         this.obstacleGenerator = new ObstacleGenerator(this.world);
@@ -103,13 +100,18 @@ public class PlayState extends State {
         handleInput();
         world.step(1/60f, 6, 2);
         pig.update(dt);
+        coin.update(dt);
 
+        /*TODO comentado temporariamente
         //Generating new obstacles
         Obstacle newObstacle = obstacleGenerator.update(dt);
         if(newObstacle != null)
         {
             obstacles.add(newObstacle);
         }
+*/
+        /*TODO Generate new Coins*/
+        /*TODO Update Remove Coins*/
 
         //Updating/Removing existing obstacles
         for(Iterator<Obstacle> iterator = obstacles.iterator(); iterator.hasNext();)
@@ -142,7 +144,7 @@ public class PlayState extends State {
         for(Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getImage(), obstacle.getPosition().x, obstacle.getPosition().y, Obstacle.WIDTH, obstacle.getSize());
         }
-        sb.draw(coin.getCoin(), coin.getPos().x, coin.getPos().y, coin.WIDTH, coin.HEIGHT);
+        sb.draw(coin.getImage(), coin.getPosition().x, coin.getPosition().y, coin.WIDTH, coin.HEIGHT);
         sb.draw(cloud.getCloud(), cloud.getPos().x, cloud.getPos().y, cloud.getWidth(), cloud.getHeight());
         //sb.draw(stick.getTopStick(), stick.getPosTopStick().x, stick.getPosTopStick().y, stick.getWidth(), stick.getHeightTopStick());
         //sb.draw(stick.getBottomStick(), stick.getPosBottomStick().x, stick.getPosBottomStick().y, stick.getWidth(), stick.getHeightBottomStick());

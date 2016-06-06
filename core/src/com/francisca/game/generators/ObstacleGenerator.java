@@ -3,7 +3,7 @@ package com.francisca.game.generators;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.physics.box2d.World;
-import com.francisca.game.sprites.Obstacle;
+import com.francisca.game.sprites.elements.Obstacle;
 
 /**
  * Created by ZeCarlos on 05/06/2016.
