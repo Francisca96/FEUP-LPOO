@@ -52,7 +52,7 @@ public class PlayState extends State {
     private Floor floor, ceiling;
     //private Obstacle obstacle;
     private ArrayList<Obstacle> obstacles;
-    private Coin coin;
+    private ArrayList<Coin> coins;
 
     private Cloud cloud;
 
@@ -77,7 +77,9 @@ public class PlayState extends State {
         //this.obstacle = new Obstacle(world);
         this.obstacles = new ArrayList<Obstacle>();
         this.obstacles.add(obstacle);
-        this.coin = new Coin(world, Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/2);//(world, 50, 50);
+        Coin coin = new Coin(world, 50, 50);
+        this.coins = new ArrayList<Coin>();
+        this.coins.add(coin);
 
         //Initializing generators
         this.obstacleGenerator = new ObstacleGenerator(this.world);
@@ -93,6 +95,10 @@ public class PlayState extends State {
         {
             pig.move();
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        {
+            pig.descend();
+        }
     }
 
     @Override
@@ -100,7 +106,6 @@ public class PlayState extends State {
         handleInput();
         world.step(1/60f, 6, 2);
         pig.update(dt);
-        coin.update(dt);
 
         /*TODO comentado temporariamente
         //Generating new obstacles
@@ -112,6 +117,15 @@ public class PlayState extends State {
 */
         /*TODO Generate new Coins*/
         /*TODO Update Remove Coins*/
+        for(Iterator<Coin> iterator = coins.iterator(); iterator.hasNext();)
+        {
+            Coin nextCoin = iterator.next();
+            if(!nextCoin.update(dt) || nextCoin.isMarkedForDelete())
+            {
+                nextCoin.delete();
+                iterator.remove();
+            }
+        }
 
         //Updating/Removing existing obstacles
         for(Iterator<Obstacle> iterator = obstacles.iterator(); iterator.hasNext();)
@@ -144,7 +158,10 @@ public class PlayState extends State {
         for(Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getImage(), obstacle.getPosition().x, obstacle.getPosition().y, Obstacle.WIDTH, obstacle.getSize());
         }
-        sb.draw(coin.getImage(), coin.getPosition().x, coin.getPosition().y, coin.WIDTH, coin.HEIGHT);
+        for(Coin coin: coins)
+        {
+            sb.draw(coin.getImage(), coin.getPosition().x, coin.getPosition().y, coin.WIDTH, coin.HEIGHT);
+        }
         sb.draw(cloud.getCloud(), cloud.getPos().x, cloud.getPos().y, cloud.getWidth(), cloud.getHeight());
         //sb.draw(stick.getTopStick(), stick.getPosTopStick().x, stick.getPosTopStick().y, stick.getWidth(), stick.getHeightTopStick());
         //sb.draw(stick.getBottomStick(), stick.getPosBottomStick().x, stick.getPosBottomStick().y, stick.getWidth(), stick.getHeightBottomStick());

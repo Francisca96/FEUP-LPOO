@@ -162,5 +162,12 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
     {
         this.b2body.applyLinearImpulse(new Vector2(0.1f, 0), b2body.getWorldCenter(), true);
     }
+
+    /**
+     * Just for debugging purposes
+     */
+    public void descend(){
+        this.b2body.applyLinearImpulse(new Vector2(0, -0.1f), b2body.getWorldCenter(), true);
+    }
     public void dispose(){ }
 }

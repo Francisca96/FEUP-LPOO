@@ -22,7 +22,8 @@ public class Coin extends Element {
     public static final int HEIGHT = 30;
     public static final int RADIUS = WIDTH/2;
     public static final String IMAGE = "coin.png";
-    private Vector2 pos;
+
+    private boolean markedForDelete;
 
     public Coin(World world, float x, float y){
 
@@ -31,6 +32,7 @@ public class Coin extends Element {
         this.image = new TextureRegion(new Texture(IMAGE));
         defineCoin();
         this.animation = new Animation(new TextureRegion(this.image.getTexture()), 1, 0.5f);
+        this.markedForDelete = false;
 
         //Aligns the sprite
         float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
@@ -91,7 +93,10 @@ public class Coin extends Element {
 
     public void onCreatingCollision()
     {
-        /*TODO mark for delete in PlayState.update, not imediate delete*/
-        //delete();
+       markedForDelete = true;
+    }
+
+    public boolean isMarkedForDelete() {
+        return markedForDelete;
     }
 }
