@@ -3,14 +3,22 @@ package com.francisca.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.francisca.game.PiggyCoins;
 import com.francisca.game.Player;
 import com.francisca.game.generators.ObstacleGenerator;
@@ -50,6 +58,12 @@ public class PlayState extends State {
     private World world;
     private Box2DDebugRenderer b2dr;
 
+    private Button soundBtn;
+    private Button musicBtn;
+
+    private Sprite soundBtnTexture;
+    private Sprite musicBtnTexture;
+
     //World's objects
     private Pig pig;
     private Floor floor, ceiling;
@@ -58,6 +72,9 @@ public class PlayState extends State {
 
     private Coin coin;
     private Cloud cloud;
+
+    private Stage stage;
+    private SpriteBatch spriteBatch;
 
     //Generators
     private ObstacleGenerator obstacleGenerator;
@@ -86,6 +103,42 @@ public class PlayState extends State {
         this.obstacleGenerator = new ObstacleGenerator(this.world);
 
         world.setContactListener(new WorldContactListener());
+
+        FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
+        spriteBatch = new SpriteBatch();
+        stage = new Stage(viewport, spriteBatch);
+
+        Gdx.input.setInputProcessor(stage);
+        createMenuButtons();
+    }
+
+    public void createMenuButtons(){
+        soundBtnTexture = new Sprite(new Texture("soundBtn.png"));
+        soundBtn = new Button(new SpriteDrawable(soundBtnTexture));
+
+        musicBtnTexture = new Sprite(new Texture("musicBtn.png"));
+        musicBtn = new Button(new SpriteDrawable(musicBtnTexture));
+
+        soundBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(soundBtn.isPressed()) {
+
+                }
+            }
+        });
+
+        musicBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(musicBtn.isPressed()) {
+
+                }
+            }
+        });
+
+        stage.addActor(soundBtn);
+        stage.addActor(musicBtn);
     }
 
     @Override
@@ -137,7 +190,7 @@ public class PlayState extends State {
         //sb.setProjectionMatrix(cam.combined);
 
         sb.begin();
-       // sb.draw(bg, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);
+        //sb.draw(bg, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);
         sb.draw(pig.getImage(), pig.getPosition().x, pig.getPosition().y, Pig.WIDTH, Pig.HEIGHT);
         for(Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getImage(), obstacle.getPosition().x, obstacle.getPosition().y, Obstacle.WIDTH, obstacle.getSize());
@@ -146,6 +199,8 @@ public class PlayState extends State {
         sb.draw(cloud.getCloud(), cloud.getPos().x, cloud.getPos().y, cloud.getWidth(), cloud.getHeight());
         //sb.draw(stick.getTopStick(), stick.getPosTopStick().x, stick.getPosTopStick().y, stick.getWidth(), stick.getHeightTopStick());
         //sb.draw(stick.getBottomStick(), stick.getPosBottomStick().x, stick.getPosBottomStick().y, stick.getWidth(), stick.getHeightBottomStick());
+        soundBtn.draw(sb, 1);
+        musicBtn.draw(sb, 1);
         sb.end();
 
         b2dr.render(world, cam.combined);
