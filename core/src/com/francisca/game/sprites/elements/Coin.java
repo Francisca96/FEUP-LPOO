@@ -18,9 +18,9 @@ import com.francisca.game.states.PlayState;
 public class Coin extends Element {
     private static final int FLUCTUATION = 200;
 
-    public static final int WIDTH = 30;
-    public static final int HEIGHT = 30;
-    public static final int RADIUS = WIDTH/2;
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 20;
+    public static final int RADIUS = 10;
     public static final String IMAGE = "coin.png";
 
     private boolean markedForDelete;
@@ -48,7 +48,7 @@ public class Coin extends Element {
         //Defines body
         BodyDef bdef = new BodyDef();
         bdef.position.set((position.x- Gdx.graphics.getWidth()/2)/ PiggyCoins.PPM, (position.y-Gdx.graphics.getHeight()/2)/PiggyCoins.PPM);
-        bdef.type = com.badlogic.gdx.physics.box2d.BodyDef.BodyType.KinematicBody;
+        bdef.type = BodyDef.BodyType.DynamicBody;
 
         //puts body into world
         b2body = world.createBody(bdef);
@@ -68,6 +68,9 @@ public class Coin extends Element {
 
         //Nullifies the force of gravity
         b2body.setGravityScale(0);
+        /*TODO define speed of coin*/
+        applyVelocity();
+
 
         shape.dispose();
     }

@@ -40,8 +40,8 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
 
         //align the sprite
-        float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
-        float yalign = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
+        float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-(WIDTH/2);
+        float yalign = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-(HEIGHT/2)+ADJUSTMENT;
         setPosition(xalign,yalign);
     }
 
@@ -137,8 +137,8 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         pigAnimation.update(dt);
         //Measures in pixels
 
-        float x = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
-        float y = (b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-HEIGHT/2+ADJUSTMENT;
+        float x = ((b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-(WIDTH/2));
+        float y = ((b2body.getPosition().y)*PiggyCoins.PPM +Gdx.graphics.getHeight()/2-(HEIGHT/2)+ADJUSTMENT);
         setPosition(x,y);
 
         //Stops Velocity in the x axis

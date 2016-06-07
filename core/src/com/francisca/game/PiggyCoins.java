@@ -16,9 +16,11 @@ public class PiggyCoins extends ApplicationAdapter {
 	public static final int HIGHSCORE_SIZE = 10;
 	public static final float PPM = 100f;
 
+	public static float RATIO_WIDTH = WIDTH;
+	public static float RATIO_HEIGHT = HEIGHT;
 
 	private GameStateManager gsm;
-	private SpriteBatch batch;
+	public SpriteBatch batch;
 	private Player actualPlayer; /*TODO criar um state em que se cria um player*/
 	private Array<Player> players;
 	private Array<Integer> highscore;
@@ -36,12 +38,20 @@ public class PiggyCoins extends ApplicationAdapter {
 		players = new Array<Player>();
 		actualPlayer = new Player("PlayerDefault");
 
-		gsm.push(new MenuState(gsm, actualPlayer));
+		gsm.push(new MenuState(gsm, this));
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		gsm.resize(width, height);
 	}
 
 	@Override
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		RATIO_WIDTH = ((float)WIDTH)/((float)Gdx.graphics.getWidth());
+		RATIO_HEIGHT = ((float)HEIGHT)/((float)Gdx.graphics.getHeight());
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render(batch);
 	}
@@ -88,6 +98,10 @@ public class PiggyCoins extends ApplicationAdapter {
 			return true;
 		else
 			return false;
+	}
+
+	public Player getActualPlayer() {
+		return actualPlayer;
 	}
 
 }

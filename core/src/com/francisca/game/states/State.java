@@ -23,22 +23,28 @@ public abstract class State {
     protected Vector3 mouse;
     protected GameStateManager gsm;
     protected Player player;
+    protected PiggyCoins game;
 
 
-    protected State (GameStateManager gsm, Player player){
+    protected State (GameStateManager gsm, PiggyCoins game){
         this.gsm = gsm;
         cam = new OrthographicCamera(Gdx.graphics.getWidth()/PiggyCoins.PPM, Gdx.graphics.getHeight()/PiggyCoins.PPM);
         //cam = new OrthographicCamera();
         //cam.update();
-        gamePort = new StretchViewport(Gdx.graphics.getWidth()/PiggyCoins.PPM, Gdx.graphics.getHeight()/PiggyCoins.PPM, cam);
+        gamePort = new StretchViewport(PiggyCoins.WIDTH/PiggyCoins.PPM,PiggyCoins.HEIGHT/PiggyCoins.PPM, cam);
         //cam.position.set(cam.viewportWidth, cam.viewportHeight);
         //gamePort = new ScreenViewport(cam);
         mouse = new Vector3();
         this.player = player;
+        this.game = game;
     }
 
     protected abstract void handleInput();
     public abstract void update(float dt);
     public abstract void render(SpriteBatch sb);
     public abstract void dispose();
+    public void resize(int width, int height)
+    {
+        gamePort.update(width, height);
+    }
 }

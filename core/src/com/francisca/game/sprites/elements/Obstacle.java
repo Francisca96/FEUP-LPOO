@@ -18,7 +18,7 @@ import com.francisca.game.states.PlayState;
 public class Obstacle extends com.francisca.game.sprites.elements.Element {
 
     public static final int WIDTH = 10;
-    public static final int HEIGHT = 200;
+    public static final int HEIGHT = Gdx.graphics.getHeight()/2;
     public static final String IMAGE = "bottomStick.png";
     public static final float[] SIZE = {HEIGHT/4, HEIGHT/2, HEIGHT, HEIGHT*1.5f};
 

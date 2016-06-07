@@ -11,8 +11,8 @@ import com.francisca.game.Player;
 public class SettingsState extends State{
     private Texture background;
 
-    public SettingsState (GameStateManager gsm, Player player) {
-        super(gsm, player);
+    public SettingsState (GameStateManager gsm, PiggyCoins game) {
+        super(gsm, game);
         background = new Texture("bgStates.png");
     }
 

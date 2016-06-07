@@ -16,6 +16,7 @@ public class WorldContactListener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
+        System.out.println("Tocou");
         if(fixA.getUserData() instanceof Coin || fixB.getUserData() instanceof Coin)
         {
             Fixture coin = fixA.getUserData() instanceof Coin ? fixA : fixB;

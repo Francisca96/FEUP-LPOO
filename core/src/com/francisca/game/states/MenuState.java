@@ -15,8 +15,8 @@ public class MenuState extends State {
     private Texture settingsBtn;
     private Texture highscoresBtn;
     private Texture soundBtn;
-    public MenuState(GameStateManager gsm, Player player) {
-        super(gsm, player);
+    public MenuState(GameStateManager gsm, PiggyCoins game) {
+        super(gsm, game);
         background = new Texture("background.png");
         playBtn = new Texture("playBtn.png");
         settingsBtn = new Texture("settingsBtn.png");
@@ -27,7 +27,7 @@ public class MenuState extends State {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()){
-            gsm.set(new PlayState(gsm, player));
+            gsm.set(new PlayState(gsm, game));
             dispose();
         }
     }
