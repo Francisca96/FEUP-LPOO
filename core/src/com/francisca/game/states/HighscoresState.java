@@ -27,8 +27,8 @@ public class HighscoresState extends State{
     private Button backBtn;
     private Sprite backBtnTexture;
 
-    public HighscoresState (GameStateManager gsm, Player player) {
-        super(gsm, player);
+    public HighscoresState (GameStateManager gsm, PiggyCoins game) {
+        super(gsm, game);
         background = new Texture("bgStates.png");
         title = new Texture("highscores.png");
 

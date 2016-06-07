@@ -34,9 +34,8 @@ public class MenuState extends State {
     private Sprite highscoresBtnTexture;
     private Sprite soundBtnTexture;
     private Sprite musicBtnTexture;
-
-    public MenuState(GameStateManager gsm, Player player) {
-        super(gsm, player);
+    public MenuState(GameStateManager gsm, PiggyCoins game) {
+        super(gsm, game);
         background = new Texture("background.png");
 
         FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
@@ -68,7 +67,7 @@ public class MenuState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(playBtn.isPressed()) {
-                    gsm.set(new PlayState(gsm, player));
+                    gsm.set(new PlayState(gsm, game));
                 }
             }
         });
@@ -119,8 +118,7 @@ public class MenuState extends State {
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()){
-            gsm.set(new PlayState(gsm, player));
-            dispose();
+            gsm.set(new PlayState(gsm, game));
         }
     }
 

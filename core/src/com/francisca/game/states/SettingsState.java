@@ -27,8 +27,8 @@ public class SettingsState extends State{
     private Button backBtn;
     private Sprite backBtnTexture;
 
-    public SettingsState (GameStateManager gsm, Player player) {
-        super(gsm, player);
+    public SettingsState (GameStateManager gsm, PiggyCoins game) {
+        super(gsm, game);
         background = new Texture("bgStates.png");
         title = new Texture("settings.png");
 

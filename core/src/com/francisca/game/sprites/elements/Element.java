@@ -1,4 +1,4 @@
-package com.francisca.game.sprites;
+package com.francisca.game.sprites.elements;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,9 +8,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.francisca.game.PiggyCoins;
+import com.francisca.game.sprites.Animation;
+import com.francisca.game.states.PlayState;
 
 /**
  * Created by ZeCarlos on 03/06/2016.
@@ -80,9 +83,23 @@ public abstract class Element extends Sprite{
         shape.setRadius(5/PiggyCoins.PPM);
         fdef.shape = shape;
 
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData(this);
     }
 
+    public abstract boolean update(float dt);
+
+    public void applyVelocity()
+    {
+        this.b2body.setLinearVelocity(PlayState.WORLD_VELOCITY, 0);
+    }
+
+    public void delete()
+    {
+        for(Fixture fixture : b2body.getFixtureList()) {
+            b2body.destroyFixture(fixture);
+        }
+        world.destroyBody(b2body);
+    }
 
     public void setBodyPosition(float x, float y)
     {
