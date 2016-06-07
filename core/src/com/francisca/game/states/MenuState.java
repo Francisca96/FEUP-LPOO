@@ -19,7 +19,6 @@ import com.francisca.game.Player;
  */
 public class MenuState extends State {
     private Texture background;
-    private Texture soundBtn;
 
     private Stage stage;
     private SpriteBatch spriteBatch;
@@ -27,15 +26,18 @@ public class MenuState extends State {
     private Button playBtn;
     private Button settingsBtn;
     private Button highscoresBtn;
+    private Button soundBtn;
+    private Button musicBtn;
 
     private Sprite playBtnTexture;
     private Sprite settingsBtnTexture;
     private Sprite highscoresBtnTexture;
+    private Sprite soundBtnTexture;
+    private Sprite musicBtnTexture;
 
     public MenuState(GameStateManager gsm, Player player) {
         super(gsm, player);
         background = new Texture("background.png");
-        soundBtn = new Texture("sound.png");
 
         FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         spriteBatch = new SpriteBatch();
@@ -54,6 +56,12 @@ public class MenuState extends State {
 
         highscoresBtnTexture = new Sprite(new Texture("highscoresBtn.png"));
         highscoresBtn = new Button(new SpriteDrawable(highscoresBtnTexture));
+
+        soundBtnTexture = new Sprite(new Texture("soundBtn.png"));
+        soundBtn = new Button(new SpriteDrawable(soundBtnTexture));
+
+        musicBtnTexture = new Sprite(new Texture("musicBtn.png"));
+        musicBtn = new Button(new SpriteDrawable(musicBtnTexture));
 
         playBtn.addListener(new ChangeListener() {
 
@@ -83,17 +91,37 @@ public class MenuState extends State {
             }
         });
 
+        soundBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(soundBtn.isPressed()) {
+
+                }
+            }
+        });
+
+        musicBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(musicBtn.isPressed()) {
+
+                }
+            }
+        });
+
         stage.addActor(playBtn);
         stage.addActor(settingsBtn);
         stage.addActor(highscoresBtn);
+        stage.addActor(soundBtn);
+        stage.addActor(musicBtn);
     }
 
     @Override
     public void handleInput() {
-        /*if(Gdx.input.justTouched()){
+        if(Gdx.input.justTouched()){
             gsm.set(new PlayState(gsm, player));
             dispose();
-        }*/
+        }
     }
 
     @Override
@@ -106,23 +134,17 @@ public class MenuState extends State {
         stage.draw();
         sb.begin();
         sb.draw(background, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);
-        //sb.draw(playBtn,  (PiggyCoins.WIDTH / 2 - playBtn.getWidth() / 2 ), (PiggyCoins.HEIGHT / 2 - playBtn.getHeight() / 2 ));
-        //sb.draw(settingsBtn, (PiggyCoins.WIDTH / 2 - settingsBtn.getWidth() / 2 ), (PiggyCoins.HEIGHT / 2 - settingsBtn.getHeight() / 2 ));
-        //sb.draw(highscoresBtn, (PiggyCoins.WIDTH / 2 - highscoresBtn.getWidth() / 2 ), (PiggyCoins.HEIGHT / 2 - highscoresBtn.getHeight() / 2 ));
         playBtn.draw(sb, 1);
         settingsBtn.draw(sb, 1);
         highscoresBtn.draw(sb, 1);
-        sb.draw(soundBtn, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);
+        soundBtn.draw(sb, 1);
+        musicBtn.draw(sb, 1);
         sb.end();
     }
 
     @Override
     public void dispose() {
         background.dispose();
-        //playBtn.dispose();
-        //settingsBtn.dispose();
-        //highscoresBtn.dispose();
-        //soundBtn.dispose();
         System.out.println("Menu State Disposed");
     }
 }

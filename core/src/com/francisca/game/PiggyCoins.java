@@ -2,6 +2,7 @@ package com.francisca.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -22,12 +23,17 @@ public class PiggyCoins extends ApplicationAdapter {
 	private Player actualPlayer; /*TODO criar um state em que se cria um player*/
 	private Array<Player> players;
 	private Array<Integer> highscore;
+	//private Music music;
 	
 	@Override
 	public void create () {
 		Box2D.init();
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
+		//music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		//music.setLooping(true);
+		//music.setVolume(0.1f);
+		//music.play();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 
 		/*TODO ler os players dum ficheiro de texto, e depois, caso esteja vazio, comecar o ecra do escolher jogador */
@@ -46,7 +52,13 @@ public class PiggyCoins extends ApplicationAdapter {
 		gsm.render(batch);
 	}
 
-    public Array<Integer> getHighscore() {
+	@Override
+	public void dispose() {
+		super.dispose();
+		//music.dispose();
+	}
+
+	public Array<Integer> getHighscore() {
 		return highscore;
 	}
 
