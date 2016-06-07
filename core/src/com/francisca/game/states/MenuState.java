@@ -66,15 +66,16 @@ public class MenuState extends State {
 
         highscoresBtnTexture = new Sprite(new Texture("highscoresBtn.png"));
         highscoresBtn = new ImageButton(new SpriteDrawable(highscoresBtnTexture));
-        highscoresBtn.setPosition(stage.getWidth()/2-highscoresBtn.getWidth()/2, stage.getHeight()/2-highscoresBtn.getHeight()/2-settingsBtn.getHeight()-5);
+        highscoresBtn.setPosition(stage.getWidth()/2-highscoresBtn.getWidth()/2, stage.getHeight()/2-highscoresBtn.getHeight()/2-settingsBtn.getHeight()-playBtn.getHeight()-5);
 
 
         soundBtnTexture = new Sprite(new Texture("soundBtn.png"));
         soundBtn = new ImageButton(new SpriteDrawable(soundBtnTexture));
-        //table.add(soundBtn).bottom();
+        soundBtn.setPosition(0, 0);
 
         musicBtnTexture = new Sprite(new Texture("musicBtn.png"));
         musicBtn = new ImageButton(new SpriteDrawable(musicBtnTexture));
+        musicBtn.setPosition(soundBtn.getWidth() + 5, 0);
        // table.add(musicBtn).bottom();
 /*
         Label empty = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
@@ -85,7 +86,7 @@ public class MenuState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(playBtn.isPressed()) {
-
+                    gsm.set(new PlayState(gsm, game));
                 }
             }
         });

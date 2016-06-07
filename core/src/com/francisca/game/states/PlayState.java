@@ -134,6 +134,7 @@ public class PlayState extends State {
 
         musicBtnTexture = new Sprite(new Texture("musicBtn.png"));
         musicBtn = new Button(new SpriteDrawable(musicBtnTexture));
+        musicBtn.setPosition(soundBtn.getWidth(), 0);
 
         soundBtn.addListener(new ChangeListener() {
             @Override
