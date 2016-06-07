@@ -61,7 +61,7 @@ public class Hud {
         table.add(scoreLabel).right().padTop(10);
 
         table.row();
-        this.gameOverImage.setVisible(true);
+        this.gameOverImage.setVisible(false);
         table.add(empty).width(20);
         table.add(gameOverImage).expand().right();
 
@@ -77,14 +77,28 @@ public class Hud {
     public void gotHit()
     {
         lives--;
-        if(lives < 0) {
+        if(lives <= 0) {
             lives = 0;
-            stage.addActor(gameOverImage);
+            gameOverImage.setVisible(true);
         }
         updateLives();
     }
 
+    public int getLives()
+    {
+        return lives;
+    }
     public Viewport getViewport() {
         return viewport;
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
+        scoreLabel.setText(String.format("%06d", score));
+    }
+
+    public void dispose(){
+        stage.dispose();
     }
 }

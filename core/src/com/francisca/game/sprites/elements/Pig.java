@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.francisca.game.PiggyCoins;
@@ -22,22 +24,28 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
     public static final int HEIGHT = 50;
     public static final float RADIUS = 20.5f;
     public static final float ADJUSTMENT = 4f; //To adjust the body to the sprite
+    public static final float INVULNERABILITY = 3;
 
     public static final float IMPULSE = 0.4f;
 
 
     private Animation pigAnimation;
-    private int numLives;
+    public boolean hit;
+    public int numCoins;
+    private float invulnerabilityTimer;
+    Fixture pigFixture;
 
     public Pig(World world, int x, int y, PigType pigType){
 
         this.world = world;
         position = new Vector2(x,y);
         definePig();
-        numLives = 3;
+        hit = false;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(pigType));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+        this.numCoins = 0;
+        this.invulnerabilityTimer = 0;
 
         //align the sprite
         float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-(WIDTH/2);
@@ -50,10 +58,13 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         this.world = world;
         position = new Vector2(x,y);
         definePig();
-        numLives = 3;
+        hit = false;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(PigType.NORMAL));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+        this.numCoins = 0;
+        this.invulnerabilityTimer = 0;
+
 
         //align the sprite
         float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
@@ -66,10 +77,13 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         this.world = world;
         position = new Vector2(0,0);
         definePig();
-        numLives = 3;
+        hit = false;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(pigType));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+        this.numCoins = 0;
+        this.invulnerabilityTimer = 0;
+
 
         //align the sprite
         float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
@@ -82,10 +96,13 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         this.world = world;
         position = new Vector2(0,0);
         definePig();
-        numLives = 3;
+        hit = false;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(PigType.NORMAL));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+        this.numCoins = 0;
+        this.invulnerabilityTimer = 0;
+
 
         //align the sprite
         float xalign = (b2body.getPosition().x)*PiggyCoins.PPM +Gdx.graphics.getWidth()/2-WIDTH/2;
@@ -114,7 +131,7 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         fdef.filter.categoryBits = PlayState.CATEGORY_PIG;
         fdef.filter.maskBits = PlayState.MASK_PIG;
 
-        b2body.createFixture(fdef).setUserData("pig");
+        b2body.createFixture(fdef).setUserData(this);
         shape.dispose();
     }
 
@@ -124,6 +141,10 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         if(pigType == PigType.NORMAL)
         {
             texture = new Texture("pigSprite.png");
+        }
+        else if(pigType == PigType.INVULNERABLE)
+        {
+            texture = new Texture("pigSpriteInvulnerable.png");
         }
         else
         {
@@ -145,12 +166,33 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         b2body.setLinearVelocity(0, b2body.getLinearVelocity().y);
         b2body.setAngularVelocity(0);
 
+        //Invulnerability
+        if(invulnerabilityTimer > 0) {
+            invulnerabilityTimer -= dt;
+            if(invulnerabilityTimer <= 0)
+            {
+                this.image.setTexture(chooseTexture(PigType.NORMAL));
+                pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+
+                for(Fixture fixture : b2body.getFixtureList()) {
+                    Filter filter = new Filter();
+                    filter.categoryBits = PlayState.CATEGORY_PIG;
+                    filter.maskBits = PlayState.MASK_PIG;
+                    fixture.setFilterData(filter);
+                }
+            }
+        }
+
         return true;
     }
 
     @Override
     public TextureRegion getImage() {
         return pigAnimation.getFrame();
+    }
+
+    public float getInvulnerabilityTimer() {
+        return invulnerabilityTimer;
     }
 
     public void jump(){
@@ -169,5 +211,37 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
     public void descend(){
         this.b2body.applyLinearImpulse(new Vector2(0, -0.1f), b2body.getWorldCenter(), true);
     }
+
+    public void catchCoin()
+    {
+        numCoins++;
+    }
+
+    public void resetCoins()
+    {
+        numCoins = 0;
+    }
+
+    public boolean isHit()
+    {
+        return hit;
+    }
+
+    public void afterHit()
+    {
+        hit = false;
+        invulnerabilityTimer = INVULNERABILITY;
+        this.image.setTexture(chooseTexture(PigType.INVULNERABLE));
+        pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
+        for(Fixture fixture : b2body.getFixtureList())
+        {
+            Filter filter = new Filter();
+            filter.categoryBits = PlayState.CATEGORY_INVULNERABLE;
+            filter.maskBits = PlayState.MASK_INVULNERABLE;
+            fixture.setFilterData(filter);
+        }
+    }
+
+
     public void dispose(){ }
 }

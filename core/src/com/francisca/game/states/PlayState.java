@@ -38,10 +38,12 @@ public class PlayState extends State {
     public static final short CATEGORY_LIMIT = 0x0002;
     public static final short CATEGORY_OBSTACLE = 0x0004;
     public static final short CATEGORY_COLLECTIBLE = 0x0008;
+    public static final short CATEGORY_INVULNERABLE = 0x0010;
 
     //Masks for collisions
     public static final short MASK_PIG = CATEGORY_LIMIT | CATEGORY_OBSTACLE | CATEGORY_COLLECTIBLE;
-    public static final short MASK_LIMIT = CATEGORY_PIG;
+    public static final short MASK_INVULNERABLE = CATEGORY_LIMIT;
+    public static final short MASK_LIMIT = CATEGORY_PIG | CATEGORY_INVULNERABLE;
     public static final short MASK_OBSTACLE = CATEGORY_PIG | CATEGORY_COLLECTIBLE;
     public static final short MASK_COLLECTIBLE = CATEGORY_PIG | CATEGORY_OBSTACLE;
     //ATENCAO, QUE A PROPRIA CLASSE NAO COLIDE ENTRE AS SUAS INSTANCIAS
@@ -49,8 +51,10 @@ public class PlayState extends State {
     //Game settings
     public static final int NUM_LIVES = 3;
 
+    private boolean gameover;
+    private float endGamecounter;
+
     private Texture bg;
-    private PiggyCoins game;
     private World world;
     private Box2DDebugRenderer b2dr;
     private Hud hud;
@@ -72,6 +76,8 @@ public class PlayState extends State {
         super(gsm, game);
         bg = new Texture("bg.png");
         cloud = new Cloud(200);
+        gameover = false;
+        endGamecounter = 5;
 
         //Set world
         Vector2 gravity = new Vector2(0, GRAVITY);
@@ -87,9 +93,7 @@ public class PlayState extends State {
         //this.obstacle = new Obstacle(world);
         this.obstacles = new ArrayList<Obstacle>();
         this.obstacles.add(obstacle);
-        Coin coin = new Coin(world, 50, 50);
         this.coins = new ArrayList<Coin>();
-        this.coins.add(coin);
 
         //Initializing generators
         this.obstacleGenerator = new ObstacleGenerator(this.world);
@@ -100,6 +104,7 @@ public class PlayState extends State {
 
     @Override
     protected void handleInput() {
+
         if(Gdx.input.justTouched())
             pig.jump();
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
@@ -114,9 +119,32 @@ public class PlayState extends State {
 
     @Override
         public void update(float dt) {
+        //If gameOver
+        if(hud.getLives() <= 0)
+        {
+            gameover = true;
+            endGamecounter -= dt;
+            if(endGamecounter < 0)
+            {
+                gsm.set(new MenuState(gsm, game));
+                return;
+            }
+            return;
+        }
+
         handleInput();
         world.step(1/60f, 6, 2);
         pig.update(dt);
+
+        //Collect coins
+        hud.setScore(pig.numCoins * 10);
+
+        //Check lives
+        if(pig.isHit())
+        {
+            hud.gotHit();
+            pig.afterHit();
+        }
 
 
         //Generating new obstacles
@@ -126,9 +154,9 @@ public class PlayState extends State {
             obstacles.add(newObstacle);
         }
 
-        /*TODO Generate new Coins*/
+        /* Generate new Coins*/
         coinGenerator.update(dt);
-        /*TODO Update Remove Coins*/
+        /* Update/Remove Coins*/
         for(Iterator<Coin> iterator = coins.iterator(); iterator.hasNext();)
         {
             Coin nextCoin = iterator.next();

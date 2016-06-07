@@ -15,7 +15,7 @@ import com.francisca.game.states.PlayState;
 /**
  * Created by Francisca on 01/06/16.
  */
-public class Obstacle extends com.francisca.game.sprites.elements.Element {
+public class Obstacle extends Element {
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = Gdx.graphics.getHeight()/2;
