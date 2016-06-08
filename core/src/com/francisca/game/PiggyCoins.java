@@ -2,13 +2,20 @@ package com.francisca.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.francisca.game.states.GameStateManager;
 import com.francisca.game.states.MenuState;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.file.Path;
 
 public class PiggyCoins extends ApplicationAdapter {
 	public static final int WIDTH = 800;
@@ -22,27 +29,43 @@ public class PiggyCoins extends ApplicationAdapter {
 
 	private GameStateManager gsm;
 	public SpriteBatch batch;
-	private Player actualPlayer; /*TODO criar um state em que se cria um player*/
-	private Array<Player> players;
+	private Player actualPlayer; /*TODO criar um state em que se cria um player FUTURAS PATCHES*/
 	private Array<Integer> highscore;
-	//private Music music;
-	
+
+	private Preferences highscoresFile;
+
+	Music menuSong;
+
 	@Override
 	public void create () {
 		Box2D.init();
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		//music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-		//music.setLooping(true);
-		//music.setVolume(0.1f);
-		//music.play();
+
+		menuSong = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		menuSong.setVolume(0.05f);
+		menuSong.setLooping(true);
+		menuSong.play();
+
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-
-		/*TODO ler os players dum ficheiro de texto, e depois, caso esteja vazio, comecar o ecra do escolher jogador */
-		/*Este é apenas um metodo default*/
-
-		players = new Array<Player>();
 		actualPlayer = new Player("PlayerDefault");
+
+		highscore = new Array<Integer>(10);
+
+		highscoresFile = Gdx.app.getPreferences("Highscores");
+		String name = highscoresFile.getString("ScoreTable", "empty");
+		if(name.equals("empty"))
+		{
+			fillHighscoreFile();
+			System.out.println("Encheu de novo:");
+			System.out.println(highscoresFile.getInteger("score1"));
+		}
+		else
+		{
+			System.out.println("Leu do ficheirito:");
+			System.out.println(highscoresFile.getInteger("score10"));
+			readHighscoreFile();
+		}
 
 		gsm.push(new MenuState(gsm, this));
 	}
@@ -64,8 +87,10 @@ public class PiggyCoins extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		menuSong.stop();
+		menuSong.dispose();
+		writeHighscoreFile();
 		super.dispose();
-		//music.dispose();
 	}
 
 	public Array<Integer> getHighscore() {
@@ -76,44 +101,83 @@ public class PiggyCoins extends ApplicationAdapter {
 		this.highscore = highscore;
 	}
 
-	public boolean addToHighscores(int i)
+	public boolean addToHighscores(int score)
 	{
-		//First Highscore
-		if(highscore.size == 1 && highscore.get(0) == 0)
+		System.out.print("Adicionou :");
+		System.out.print(score);
+		System.out.print("\n");
+
+		for(int i = 0; i < highscore.size; i++)
 		{
-			highscore.insert(0, i);
-			return true;
+			if(highscore.get(i) < score)
+			{
+				highscore.pop();
+				highscore.insert(i, score);
+				break;
+			}
 		}
-		//When highscore isn't filled
-		else if(highscore.size < HIGHSCORE_SIZE)
-		{
-			highscore.add(i);
-			return true;
-		}
-		//When highscore is filled
-		else if(highscore.size == HIGHSCORE_SIZE)
-		{
-			highscore.add(i);
-			highscore.pop();
-			return true;
-		}
-		//When there's an error
-		else
-		{
-			return false;
-		}
+
+		System.out.println(highscore.get(0));
+		System.out.println(highscore.get(1));
+		System.out.println(highscore.get(2));
+		System.out.println(highscore.get(3));
+		System.out.println(highscore.get(4));
+		System.out.println(highscore.get(5));
+		System.out.println(highscore.get(6));
+		System.out.println(highscore.get(7));
+		System.out.println(highscore.get(8));
+		System.out.println(highscore.get(9));
+		return true;
 	}
 
 	public boolean isHighscore(int i)
 	{
 		if(i > highscore.peek()) //If the new score is higher than the lowest highscore
+		{
+			System.out.println("E uma highscore");
 			return true;
-		else
+		}
+		else {
+			System.out.println("Nao e uma highscore");
 			return false;
+		}
+	}
+
+	public void fillHighscoreFile()
+	{
+		highscoresFile.putString("ScoreTable", "Pronta");
+		for(int i = 0; i < HIGHSCORE_SIZE; i++)
+		{
+			highscoresFile.putInteger("score"+Integer.toString(i), 0);
+		}
+
+		highscoresFile.flush();
+	}
+
+	public void readHighscoreFile()
+	{
+		for(int i = 0; i < HIGHSCORE_SIZE; i++)
+		{
+			highscore.add(highscoresFile.getInteger("score"+Integer.toString(i)));
+		}
+	}
+
+	public void writeHighscoreFile()
+	{
+		for(int i = 0; i < HIGHSCORE_SIZE; i++)
+		{
+			highscoresFile.putInteger("score"+Integer.toString(i), highscore.get(i));
+		}
+
+		highscoresFile.flush();
 	}
 
 	public Player getActualPlayer() {
 		return actualPlayer;
+	}
+
+	public Music getMenuSong() {
+		return menuSong;
 	}
 
 }

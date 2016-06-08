@@ -19,7 +19,7 @@ public class Obstacle extends Element {
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = Gdx.graphics.getHeight()/2;
-    public static final String IMAGE = "bottomStick.png";
+    public static final String IMAGE = "obstacle.png";
     public static final float[] SIZE = {HEIGHT/4, HEIGHT/2, HEIGHT, HEIGHT*1.5f};
 
     private float size;

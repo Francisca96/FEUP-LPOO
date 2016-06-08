@@ -49,7 +49,9 @@ public class Hud {
         table.setFillParent(true);
 
         this.scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        this.scoreLabel.setFontScale(2);
         this.scoreName = new Label("Score :", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
+        this.scoreName.setFontScale(2);
         this.livesImage = new Image(new Texture("3Lives.png"));
         this.gameOverImage = new Image(new Texture("gameover.png"));
         this.livesImage.setScaling(Scaling.fit);
@@ -90,6 +92,11 @@ public class Hud {
     }
     public Viewport getViewport() {
         return viewport;
+    }
+
+    public Integer getScore()
+    {
+        return score;
     }
 
     public void setScore(int score)

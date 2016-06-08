@@ -2,6 +2,7 @@ package com.francisca.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -86,6 +87,9 @@ public class PlayState extends State {
 
     private Stage stage;
     private SpriteBatch spriteBatch;
+    private Music playSong;
+    private Music pigJumpingSound;
+
 
     //Generators
     private ObstacleGenerator obstacleGenerator;
@@ -93,6 +97,7 @@ public class PlayState extends State {
 
     public PlayState(GameStateManager gsm, PiggyCoins game) {
         super(gsm, game);
+        Gdx.input.setCatchBackKey(true);
         bg = new Texture("bg.png");
         cloud = new Cloud(200);
         gameover = false;
@@ -105,11 +110,10 @@ public class PlayState extends State {
         hud = new Hud(game.batch, NUM_LIVES);
 
         //Initializing world objects
-        this.pig = new Pig(world, Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/2,game.getActualPlayer().getActualPig());
+        this.pig = new Pig(world, Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()/2,game.getActualPlayer().getActualPig());
         this.floor = new Floor(world);
         this.ceiling = new Floor(world, Obstacle.WIDTH/2, Gdx.graphics.getHeight());
         Obstacle obstacle = new Obstacle(world);
-        //this.obstacle = new Obstacle(world);
         this.obstacles = new ArrayList<Obstacle>();
         this.obstacles.add(obstacle);
         this.coins = new ArrayList<Coin>();
@@ -123,6 +127,12 @@ public class PlayState extends State {
         FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         spriteBatch = new SpriteBatch();
         stage = new Stage(viewport, spriteBatch);
+        this.playSong = Gdx.audio.newMusic(Gdx.files.internal("playmusic.mp3"));
+        this.playSong.setLooping(true);
+        this.playSong.play();
+
+        this.pigJumpingSound = Gdx.audio.newMusic(Gdx.files.internal("oinc.mp3"));
+        this.pigJumpingSound.setVolume(0.1f);
 
         Gdx.input.setInputProcessor(stage);
         createMenuButtons();
@@ -140,7 +150,10 @@ public class PlayState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(soundBtn.isPressed()) {
-
+                    if(pigJumpingSound.getVolume() == 0)
+                        pigJumpingSound.setVolume(0.1f);
+                    else
+                        pigJumpingSound.setVolume(0);
                 }
             }
         });
@@ -149,7 +162,10 @@ public class PlayState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(musicBtn.isPressed()) {
-
+                    if(playSong.isPlaying())
+                        playSong.stop();
+                    else
+                        playSong.play();
                 }
             }
         });
@@ -161,15 +177,14 @@ public class PlayState extends State {
     @Override
     protected void handleInput() {
 
-        if(Gdx.input.justTouched())
-            pig.jump();
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK))
         {
-            pig.move();
+            gsm.set(new MenuState(gsm, game));
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-        {
-            pig.descend();
+        if(Gdx.input.justTouched()) {
+            pigJumpingSound.stop();
+            pig.jump();
+            pigJumpingSound.play();
         }
     }
 
@@ -182,6 +197,8 @@ public class PlayState extends State {
             endGamecounter -= dt;
             if(endGamecounter < 0)
             {
+                if(game.isHighscore(hud.getScore()))
+                    game.addToHighscores(hud.getScore());
                 gsm.set(new MenuState(gsm, game));
                 return;
             }
@@ -252,6 +269,7 @@ public class PlayState extends State {
 */
         sb.begin();
         sb.draw(bg, 0, 0, PiggyCoins.WIDTH, PiggyCoins.HEIGHT);
+        sb.draw(cloud.getCloud(), cloud.getPos().x, cloud.getPos().y, cloud.getWidth(), cloud.getHeight());
         sb.draw(pig.getImage(), pig.getPosition().x, pig.getPosition().y, Pig.WIDTH, Pig.HEIGHT);
         for(Obstacle obstacle : obstacles) {
             sb.draw(obstacle.getImage(), obstacle.getPosition().x, obstacle.getPosition().y, Obstacle.WIDTH, obstacle.getSize());
@@ -260,7 +278,6 @@ public class PlayState extends State {
         {
             sb.draw(coin.getImage(), coin.getPosition().x, coin.getPosition().y, coin.WIDTH, coin.HEIGHT);
         }
-        sb.draw(cloud.getCloud(), cloud.getPos().x, cloud.getPos().y, cloud.getWidth(), cloud.getHeight());
         //sb.draw(stick.getTopStick(), stick.getPosTopStick().x, stick.getPosTopStick().y, stick.getWidth(), stick.getHeightTopStick());
         //sb.draw(stick.getBottomStick(), stick.getPosBottomStick().x, stick.getPosBottomStick().y, stick.getWidth(), stick.getHeightBottomStick());
         soundBtn.draw(sb, 1);
@@ -271,7 +288,7 @@ public class PlayState extends State {
         sb.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        b2dr.render(world, cam.combined);
+        //b2dr.render(world, cam.combined);
     }
 
 
@@ -282,6 +299,10 @@ public class PlayState extends State {
         pig.dispose();
         bg.dispose();
         cloud.dispose();
+        playSong.stop();
+        playSong.dispose();
+        pigJumpingSound.stop();
+        pigJumpingSound.dispose();
     }
 
     public World getWorld() {

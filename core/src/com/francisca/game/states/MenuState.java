@@ -1,6 +1,8 @@
 package com.francisca.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -42,9 +44,16 @@ public class MenuState extends State {
     private Sprite highscoresBtnTexture;
     private Sprite soundBtnTexture;
     private Sprite musicBtnTexture;
+
     public MenuState(GameStateManager gsm, PiggyCoins game) {
         super(gsm, game);
+        Gdx.input.setCatchBackKey(false);
         background = new Texture("background.png");
+
+        //Playing the awesome song
+        if(!game.getMenuSong().isPlaying()) {
+            game.getMenuSong().play();
+        }
 
         FitViewport viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         spriteBatch = new SpriteBatch();
@@ -62,11 +71,11 @@ public class MenuState extends State {
 
         settingsBtnTexture = new Sprite(new Texture("settingsBtn.png"));
         settingsBtn = new ImageButton(new SpriteDrawable(settingsBtnTexture));
-        settingsBtn.setPosition(stage.getWidth()/2-settingsBtn.getWidth()/2, stage.getHeight()/2-settingsBtn.getHeight()/2-playBtn.getHeight()-5);
+        settingsBtn.setPosition(stage.getWidth()/2-settingsBtn.getWidth()/2, stage.getHeight()/2-settingsBtn.getHeight()/2-playBtn.getHeight()-20);
 
         highscoresBtnTexture = new Sprite(new Texture("highscoresBtn.png"));
         highscoresBtn = new ImageButton(new SpriteDrawable(highscoresBtnTexture));
-        highscoresBtn.setPosition(stage.getWidth()/2-highscoresBtn.getWidth()/2, stage.getHeight()/2-highscoresBtn.getHeight()/2-settingsBtn.getHeight()-playBtn.getHeight()-5);
+        highscoresBtn.setPosition(stage.getWidth()/2-highscoresBtn.getWidth()/2, stage.getHeight()/2-highscoresBtn.getHeight()/2-settingsBtn.getHeight()-3*playBtn.getHeight()/2-20);
 
 
         soundBtnTexture = new Sprite(new Texture("soundBtn.png"));
@@ -76,16 +85,13 @@ public class MenuState extends State {
         musicBtnTexture = new Sprite(new Texture("musicBtn.png"));
         musicBtn = new ImageButton(new SpriteDrawable(musicBtnTexture));
         musicBtn.setPosition(soundBtn.getWidth() + 5, 0);
-       // table.add(musicBtn).bottom();
-/*
-        Label empty = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.BLACK));
-        table.add(empty).bottom().expandX();
-*/
+
         playBtn.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(playBtn.isPressed()) {
+                    game.getMenuSong().stop();
                     gsm.set(new PlayState(gsm, game));
                 }
             }
@@ -96,8 +102,7 @@ public class MenuState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(settingsBtn.isPressed()) {
-                    System.out.println("Pressed setting");
-
+                    gsm.set(new SettingsState(gsm, game));
                 }
             }
         });
@@ -106,8 +111,7 @@ public class MenuState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(highscoresBtn.isPressed()) {
-                    System.out.println("Pressed high");
-
+                    gsm.set(new HighscoresState(gsm, game));
                 }
             }
         });
@@ -117,7 +121,6 @@ public class MenuState extends State {
             public void changed(ChangeEvent event, Actor actor) {
                 if(soundBtn.isPressed()) {
                     System.out.println("Pressed sound");
-
                 }
             }
         });
@@ -126,8 +129,10 @@ public class MenuState extends State {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(musicBtn.isPressed()) {
-                    System.out.println("Pressed music");
-
+                    if(game.getMenuSong().isPlaying())
+                        game.getMenuSong().stop();
+                    else
+                        game.getMenuSong().play();
                 }
             }
         });

@@ -68,7 +68,6 @@ public class Coin extends Element {
 
         //Nullifies the force of gravity
         b2body.setGravityScale(0);
-        /*TODO define speed of coin*/
         applyVelocity();
 
 
