@@ -57,13 +57,9 @@ public class PiggyCoins extends ApplicationAdapter {
 		if(name.equals("empty"))
 		{
 			fillHighscoreFile();
-			System.out.println("Encheu de novo:");
-			System.out.println(highscoresFile.getInteger("score1"));
 		}
 		else
 		{
-			System.out.println("Leu do ficheirito:");
-			System.out.println(highscoresFile.getInteger("score10"));
 			readHighscoreFile();
 		}
 

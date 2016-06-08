@@ -180,6 +180,7 @@ public class PlayState extends State {
         if(Gdx.input.isKeyPressed(Input.Keys.BACK))
         {
             gsm.set(new MenuState(gsm, game));
+            return;
         }
         if(Gdx.input.justTouched()) {
             pigJumpingSound.stop();
@@ -250,12 +251,6 @@ public class PlayState extends State {
                 iterator.remove();
             }
         }
-        /*
-        System.out.print(pig.getBodyPosition().x);
-        System.out.print(" ");
-        System.out.print(pig.getBodyPosition().y);
-        System.out.print("\n");
-        */
     }
 
     @Override

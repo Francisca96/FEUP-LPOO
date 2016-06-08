@@ -33,6 +33,7 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
     public boolean hit;
     public int numCoins;
     private float invulnerabilityTimer;
+    private PigType pigType;
     Fixture pigFixture;
 
     public Pig(World world, int x, int y, PigType pigType){
@@ -41,6 +42,7 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         position = new Vector2(x,y);
         definePig();
         hit = false;
+        this.pigType = pigType;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(pigType));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
@@ -59,6 +61,7 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         position = new Vector2(x,y);
         definePig();
         hit = false;
+        this.pigType = PigType.NORMAL;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(PigType.NORMAL));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
@@ -77,6 +80,7 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         this.world = world;
         position = new Vector2(0,0);
         definePig();
+        this.pigType = pigType;
         hit = false;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(pigType));
@@ -97,6 +101,7 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         position = new Vector2(0,0);
         definePig();
         hit = false;
+        this.pigType = PigType.NORMAL;
         this.image = new TextureRegion();
         this.image.setTexture(chooseTexture(PigType.NORMAL));
         pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
@@ -142,9 +147,48 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
         {
             texture = new Texture("pigSprite.png");
         }
+        else if(pigType == PigType.BLUE)
+        {
+            texture = new Texture("bluePigSprite.png");
+        }
+        else if(pigType == PigType.GREEN)
+        {
+            texture = new Texture("greenPigSprite.png");
+        }
+        else if(pigType == PigType.GREY)
+        {
+            texture = new Texture("greyPigSprite.png");
+        }
+        else if(pigType == PigType.PURPLE)
+        {
+            texture = new Texture("purplePigSprite.png");
+        }
         else if(pigType == PigType.INVULNERABLE)
         {
-            texture = new Texture("pigSpriteInvulnerable.png");
+            if(this.pigType == PigType.NORMAL)
+            {
+                texture = new Texture("pigSpriteInvulnerable.png");
+            }
+            else if(this.pigType == PigType.BLUE)
+            {
+                texture = new Texture("bluePigSpriteInvulnerable.png");
+            }
+            else if(this.pigType == PigType.GREEN)
+            {
+                texture = new Texture("greenPigSpriteInvulnerable.png");
+            }
+            else if(this.pigType == PigType.GREY)
+            {
+                texture = new Texture("greyPigSpriteInvulnerable.png");
+            }
+            else if(this.pigType == PigType.PURPLE)
+            {
+                texture = new Texture("purplePigSpriteInvulnerable.png");
+            }
+            else
+            {
+                texture = new Texture("pigSpriteInvulnerable.png");
+            }
         }
         else
         {
@@ -171,7 +215,7 @@ public class Pig extends com.francisca.game.sprites.elements.Element {
             invulnerabilityTimer -= dt;
             if(invulnerabilityTimer <= 0)
             {
-                this.image.setTexture(chooseTexture(PigType.NORMAL));
+                this.image.setTexture(chooseTexture(pigType));
                 pigAnimation = new Animation(new TextureRegion(this.image.getTexture()), 8, 0.5f);
 
                 for(Fixture fixture : b2body.getFixtureList()) {
