@@ -132,7 +132,7 @@ public class PlayState extends State {
         this.playSong.play();
 
         this.pigJumpingSound = Gdx.audio.newMusic(Gdx.files.internal("oinc.mp3"));
-        this.pigJumpingSound.setVolume(0.1f);
+        this.pigJumpingSound.setVolume(0.5f);
 
         Gdx.input.setInputProcessor(stage);
         createMenuButtons();
@@ -151,7 +151,7 @@ public class PlayState extends State {
             public void changed(ChangeEvent event, Actor actor) {
                 if(soundBtn.isPressed()) {
                     if(pigJumpingSound.getVolume() == 0)
-                        pigJumpingSound.setVolume(0.1f);
+                        pigJumpingSound.setVolume(0.5f);
                     else
                         pigJumpingSound.setVolume(0);
                 }

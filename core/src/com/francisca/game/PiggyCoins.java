@@ -43,7 +43,7 @@ public class PiggyCoins extends ApplicationAdapter {
 		gsm = new GameStateManager();
 
 		menuSong = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-		menuSong.setVolume(0.2f);
+		menuSong.setVolume(0.3f);
 		menuSong.setLooping(true);
 		menuSong.play();
 
